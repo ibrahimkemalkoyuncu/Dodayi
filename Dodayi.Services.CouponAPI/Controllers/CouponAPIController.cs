@@ -11,49 +11,56 @@ namespace Dodayi.Services.CouponAPI.Controllers
     public class CouponAPIController : ControllerBase
     {
         private readonly AppDbContext _db;
+        private Response response;  
         public CouponAPIController(AppDbContext db)
         {
             _db = db;
+            response = new Response();  
         }
 
 
         [HttpGet]
-        public object Get()
+        public Response Get()
         {
             try
             {
                 IEnumerable<Coupon> objList = _db.Coupons.ToList();
-
-
-                return objList; 
+                response.Result = objList;  
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                response.IsSuccess = false;
+                response.Message = ex.Message;
             }
          
-            return null;
+            return response;
         }
 
 
         [HttpGet]
         [Route("{id:int}")]
-        public object Get(int id)
+        public Response Get(int id)
         {
             try
             {
                 Coupon obj = _db.Coupons.First(u => u.CouponId == id);
+                CouponDto couponDto = new CouponDto()
+                {
+                    CouponId = obj.CouponId,
+                    CouponCode = obj.CouponCode,
+                    DiscountAmount = obj.DiscountAmount,
+                    MinAmount = obj.MinAmount
+                };
 
-                return obj;
+                response.Result = couponDto;  
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                response.IsSuccess = false;
+                response.Message = ex.Message;
             }
 
-            return null;
+            return response;
         }
     }
 }
