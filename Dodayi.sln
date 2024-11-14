@@ -3,9 +3,39 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35431.28
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ForntEnd", "ForntEnd", "{75C3848F-6438-441B-8117-5614F0FEA4A6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Gateway", "Gateway", "{0B39F93E-F0DB-4A0A-9AA2-6BA59B657BA9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Integration", "Integration", "{72A10596-4D2F-4D62-9056-E7CF459BD3BD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{114312DA-DBDF-44B0-90E8-B66A581AB51A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dodayi.Services.CouponAPI", "Dodayi.Services.CouponAPI\Dodayi.Services.CouponAPI.csproj", "{F99ECE77-EA1C-4375-BCA0-E36164382683}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dodayi.Services.BapAPI", "Dodayi.Services.BapAPI\Dodayi.Services.BapAPI.csproj", "{B7923192-1D8E-4054-929E-245D10438CC7}"
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F99ECE77-EA1C-4375-BCA0-E36164382683}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F99ECE77-EA1C-4375-BCA0-E36164382683}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F99ECE77-EA1C-4375-BCA0-E36164382683}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F99ECE77-EA1C-4375-BCA0-E36164382683}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B7923192-1D8E-4054-929E-245D10438CC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7923192-1D8E-4054-929E-245D10438CC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B7923192-1D8E-4054-929E-245D10438CC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B7923192-1D8E-4054-929E-245D10438CC7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F99ECE77-EA1C-4375-BCA0-E36164382683} = {114312DA-DBDF-44B0-90E8-B66A581AB51A}
+		{B7923192-1D8E-4054-929E-245D10438CC7} = {114312DA-DBDF-44B0-90E8-B66A581AB51A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9920CEEC-766D-4409-A88B-FB61A3AE1946}

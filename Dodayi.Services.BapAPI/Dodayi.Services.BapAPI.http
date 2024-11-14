@@ -1,0 +1,6 @@
+@Dodayi.Services.BapAPI_HostAddress = http://localhost:5290
+
+GET {{Dodayi.Services.BapAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
