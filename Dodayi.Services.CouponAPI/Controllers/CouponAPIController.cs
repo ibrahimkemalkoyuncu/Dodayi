@@ -1,4 +1,5 @@
-﻿using Dodayi.Services.CouponAPI.Data;
+﻿using AutoMapper;
+using Dodayi.Services.CouponAPI.Data;
 using Dodayi.Services.CouponAPI.Dto;
 using Dodayi.Services.CouponAPI.Models;
 using Microsoft.AspNetCore.Http;
@@ -10,12 +11,14 @@ namespace Dodayi.Services.CouponAPI.Controllers
     [ApiController]
     public class CouponAPIController : ControllerBase
     {
-        private readonly AppDbContext _db;
-        private Response response;  
-        public CouponAPIController(AppDbContext db)
+        private readonly AppDbContext db;
+        private Response response;
+        private IMapper mapper;
+        public CouponAPIController(AppDbContext _db, IMapper _mapper)
         {
-            _db = db;
-            response = new Response();  
+            db = _db;
+            response = new Response();
+            mapper = _mapper;
         }
 
 
@@ -24,15 +27,15 @@ namespace Dodayi.Services.CouponAPI.Controllers
         {
             try
             {
-                IEnumerable<Coupon> objList = _db.Coupons.ToList();
-                response.Result = objList;  
+                IEnumerable<Coupon> objList = db.Coupons.ToList();
+                response.Result = mapper.Map<IEnumerable<CouponDto>>(objList);
             }
             catch (Exception ex)
             {
                 response.IsSuccess = false;
                 response.Message = ex.Message;
             }
-         
+
             return response;
         }
 
@@ -43,16 +46,84 @@ namespace Dodayi.Services.CouponAPI.Controllers
         {
             try
             {
-                Coupon obj = _db.Coupons.First(u => u.CouponId == id);
-                CouponDto couponDto = new CouponDto()
-                {
-                    CouponId = obj.CouponId,
-                    CouponCode = obj.CouponCode,
-                    DiscountAmount = obj.DiscountAmount,
-                    MinAmount = obj.MinAmount
-                };
+                Coupon obj = db.Coupons.First(u => u.CouponId == id);      
+                response.Result = mapper.Map<CouponDto>(obj);
+            }
+            catch (Exception ex)
+            {
+                response.IsSuccess = false;
+                response.Message = ex.Message;
+            }
 
-                response.Result = couponDto;  
+            return response;
+        }
+
+        [HttpGet]
+        [Route("GetByCode/{code}")]
+        public Response GetByCode(string code)
+        {
+            try
+            {
+                Coupon obj = db.Coupons.First(u => u.CouponCode.ToLower() == code.ToLower());
+                response.Result = mapper.Map<CouponDto>(obj);
+            }
+            catch (Exception ex)
+            {
+                response.IsSuccess = false;
+                response.Message = ex.Message;
+            }
+
+            return response;
+        }
+
+        [HttpPost]
+        public Response Post([FromBody] CouponDto dto)
+        {
+            try
+            {
+                Coupon obj = mapper.Map<Coupon>(dto);
+                db.Coupons.Add(obj);
+                db.SaveChanges();
+
+                response.Result = mapper.Map<CouponDto>(obj);
+            }
+            catch (Exception ex)
+            {
+                response.IsSuccess = false;
+                response.Message = ex.Message;
+            }
+
+            return response;
+        }
+
+        [HttpPut]
+        public Response Put([FromBody] CouponDto dto)
+        {
+            try
+            {
+                Coupon obj = mapper.Map<Coupon>(dto);
+                db.Coupons.Update(obj);
+                db.SaveChanges();
+
+                response.Result = mapper.Map<CouponDto>(obj);
+            }
+            catch (Exception ex)
+            {
+                response.IsSuccess = false;
+                response.Message = ex.Message;
+            }
+
+            return response;
+        }
+
+        [HttpDelete]
+        public Response Delete(int id)
+        {
+            try
+            {
+                Coupon obj = db.Coupons.First(u => u.CouponId == id);
+                db.Coupons.Remove(obj);
+                db.SaveChanges();
             }
             catch (Exception ex)
             {

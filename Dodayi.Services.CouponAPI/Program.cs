@@ -1,3 +1,5 @@
+using AutoMapper;
+using Dodayi.Services.CouponAPI;
 using Dodayi.Services.CouponAPI.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,7 +14,13 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
+// Mapping
+IMapper mapper = MappingConfig.RegisterMaps().CreateMapper();
+builder.Services.AddSingleton(mapper);
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
 builder.Services.AddControllers();
+
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 //builder.Services.AddOpenApi();
 

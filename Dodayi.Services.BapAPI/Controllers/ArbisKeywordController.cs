@@ -1,53 +1,61 @@
-﻿using Dodayi.Services.BapAPI.Abstract;
+﻿using AutoMapper;
+using Dodayi.Services.BapAPI.Abstract;
+using Dodayi.Services.BapAPI.Dto;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Dodayi.Services.BapAPI.Controllers
 {
-    //[Route("api/[controller]")]
-    //[ApiController]
-    //public class ArbisKeywordController : ControllerBase
-    //{
-    //}
-
     [Route("api/[controller]")]
     [ApiController]
     public class ArbisKeywordController : ControllerBase
     {
-        readonly IArbisKeywordService _arbisKeywordService;
-        public ArbisKeywordController(IArbisKeywordService arbisKeywordService)
+        private readonly IArbisKeywordService _arbisKeywordService;
+        private Response response;
+        private IMapper mapper;
+
+        public ArbisKeywordController(IArbisKeywordService arbisKeywordService, IMapper _mapper)
         {
             _arbisKeywordService = arbisKeywordService;
+            response = new Response();
+            mapper = _mapper;
         }
 
         [HttpGet]
         [Route("ArbisKeywordList")]
-        public IActionResult ArbisKeywordList(int id)
+        public IActionResult<Response> ArbisKeywordList(int id)
         {
-            var list = _arbisKeywordService.GetArbisKeys(id);
-            if (list != null)
+            try
             {
-                return Ok(list);
+                var list = _arbisKeywordService.GetArbisKeys(id);
+                response.Result = mapper.Map<IEnumerable<ArbisKeywordDto>>(list);
+
             }
-            else
+            catch (Exception ex)
             {
-                return NotFound();
+                response.IsSuccess = false;
+                response.Message = ex.Message;
             }
+
+            return OK(response);
         }
 
         [HttpGet]
         [Route("ArbisKeyword")]
         public IActionResult ArbisKeyword(int id)
         {
-            var arbisKeyword = _arbisKeywordService.GetArbisKey(id);
-            if (arbisKeyword != null)
+            try
             {
-                return Ok(arbisKeyword);
+                var obj = _arbisKeywordService.GetArbisKey(id);
+                response.Result = mapper.Map<ArbisKeywordDto>(obj);
             }
-            else
+            catch (Exception ex)
             {
-                return NotFound();
+                response.IsSuccess = false;
+                response.Message = ex.Message;
             }
+
+            return response;
         }
     }
 }
