@@ -1,0 +1,219 @@
+﻿@model PagedList<DetailDto>
+
+<style>
+    .table-container {
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+    }
+
+    .custom-header {
+        background: linear-gradient(135deg, #4b6cb7 0%, #182848 100%);
+        border-radius: 8px 8px 0 0;
+    }
+
+    .table thead th {
+        background-color: #f8f9fa;
+        border-bottom: 2px solid #dee2e6;
+        font-weight: 600;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        color: #495057;
+    }
+
+    .table tbody tr:hover {
+        background-color: #f8f9fa;
+        transition: all 0.2s ease;
+    }
+
+    .action-buttons a {
+        padding: 0.25rem 0.5rem;
+        margin: 0 0.2rem;
+        transition: all 0.3s ease;
+    }
+
+        .action-buttons a:hover {
+            transform: translateY(-2px);
+        }
+
+    .pagination-sm .page-link {
+        font-size: 0.8rem;
+        padding: 0.25rem 0.5rem;
+    }
+
+    .records-info {
+        font-size: 0.8rem;
+        color: #6c757d;
+    }
+
+    .add-button {
+        transition: all 0.3s ease;
+    }
+
+        .add-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+</style>
+
+<div class="table-container shadow-sm border-0 my-4">
+    <div class="custom-header p-4">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <h2 class="text-white m-0 font-weight-bold">Details List</h2>
+            </div>
+            <div class="col-md-6 text-md-end">
+                <a asp-action="AddMakineTechizatDetailCreate" class="btn btn-light add-button">
+                    <i class="bi bi-plus-square me-2"></i>Add Makine Techizat
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="p-4">
+        <div class="table-responsive">
+            <table class="table table-hover mb-4">
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Code</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Unit</th>
+                        <th scope="col">Type</th>
+                        <th scope="col">Sum</th>
+                        <th scope="col">Year</th>
+                        <th scope="col">Status</th>
+                        <th scope="col" class="text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Items)
+                    {
+                        <tr>
+                            <td>@item.Id</td>
+                            <td><span class="badge bg-light text-dark">@item.Code</span></td>
+                            <td>@item.Name</td>
+                            <td>@item.Unit</td>
+                            <td>@item.Type</td>
+                            <td>@(item.Sum?.ToString("C") ?? "-")</td>
+                            <td>@item.Year</td>
+                            <td>
+                                <span class="badge bg-@(item.Status.HasValue && item.Status.Value ? "success" : "warning")">
+                                    @(item.Status.HasValue && item.Status.Value ? "Active" : "Inactive")
+                                </span>
+                            </td>
+                            <td class="text-center action-buttons">
+                                <a asp-action="EditDetail" asp-route-id="@item.Id"
+                                   class="btn btn-sm btn-outline-primary" title="Edit">
+                                    <i class="bi bi-pencil-square"></i>
+                                </a>
+                                <a asp-action="DeleteDetail" asp-route-id="@item.Id"
+                                   class="btn btn-sm btn-outline-danger" title="Delete"
+                                   onclick="return confirm('Are you sure you want to delete this item?');">
+                                    <i class="bi bi-trash"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Pagination -->
+        <div class="d-flex justify-content-between align-items-center flex-wrap">
+            <div class="records-info">
+                Showing @((Model.PageNumber - 1) * Model.PageSize + 1) to
+                @(Math.Min(Model.PageNumber * Model.PageSize, Model.TotalCount))
+                of @Model.TotalCount entries
+            </div>
+
+            <nav>
+                <ul class="pagination pagination-sm mb-0">
+                    @if (Model.HasPreviousPage)
+                    {
+                        <li class="page-item">
+                            <a class="page-link" asp-action="DetailIndex" asp-route-page="@(Model.PageNumber - 1)">
+                                <i class="bi bi-chevron-left"></i>
+                            </a>
+                        </li>
+                    }
+                    @for (var i = 1; i <= Model.TotalPages; i++)
+                    {
+                        <li class="page-item @(i == Model.PageNumber ? "active" : "")">
+                            <a class="page-link" asp-action="DetailIndex" asp-route-page="@i">@i</a>
+                        </li>
+                    }
+                    @if (Model.HasNextPage)
+                    {
+                        <li class="page-item">
+                            <a class="page-link" asp-action="DetailIndex" asp-route-page="@(Model.PageNumber + 1)">
+                                <i class="bi bi-chevron-right"></i>
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+@* @model IEnumerable<DetailDto> *@
+
+@* <div class="card shadow border-0 mt-4">
+    <div class="card-header bg-secondary bg-gradient py-3">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h1 class="text-white">Details List</h1>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-body p-4">
+        <div class="row pb-3">
+            <div class="col-6">
+            </div>
+            <div class="col-6 text-end">
+                <a asp-action="AddMakineTechizatDetailCreate" class="btn btn-outline-primary"><i class="bi bi-plus-square"></i> Add Makine Techizat</a>
+            </div>
+        </div>
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Code</th>
+                    <th>Name</th>
+                    <th>Unit</th>
+                    <th>Type</th>
+                    <th>Sum</th>
+                    <th>Year</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Id</td>
+                        <td>@item.Code</td>
+                        <td>@item.Name</td>
+                        <td>@item.Unit</td>
+                        <td>@item.Type</td>
+                        <td>@(item.Sum?.ToString("C") ?? "-")</td>
+                        <td>@item.Year</td>
+                        <td>@item.Status</td>
+                        <td>
+                            <a asp-action="EditDetail" asp-route-id="@item.Id" class="btn btn-outline-primary">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+                            <a asp-action="DeleteDetail" asp-route-id="@item.Id" class="btn btn-outline-danger">
+                                <i class="bi bi-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+ *@

@@ -1,0 +1,125 @@
+﻿@model DetailDto
+
+<div class="card shadow border-0 mt-4">
+    <div class="card-header bg-secondary bg-gradient py-3 text-center">
+        <h1 class="text-white">Add Makine Techizat</h1>
+    </div>
+    <div class="card-body p-4">
+        <form asp-action="AddMakineTechizatDetailCreate" method="post">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label asp-for="ProjectId" class="form-label">Project Id</label>
+                        <input asp-for="ProjectId" class="form-control" />
+                        <span asp-validation-for="ProjectId" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label asp-for="Name" class="form-label">Name</label>
+                        <input asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label asp-for="TechnicalPros" class="form-label">Technical Pros</label>
+                        <input asp-for="TechnicalPros" class="form-control" />
+                        <span asp-validation-for="TechnicalPros" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label asp-for="Why" class="form-label">Why</label>
+                        <input asp-for="Why" class="form-control" />
+                        <span asp-validation-for="Why" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label asp-for="Count" class="form-label">Count</label>
+                        <input asp-for="Count" class="form-control" />
+                        <span asp-validation-for="Count" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label asp-for="Unit" class="form-label">Unit</label>
+                        <input asp-for="Unit" class="form-control" />
+                        <span asp-validation-for="Unit" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label asp-for="UnitUsd" class="form-label">UnitUsd</label>
+                        <input asp-for="UnitUsd" class="form-control" />
+                        <span asp-validation-for="UnitUsd" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label asp-for="PiyasaTuru" class="form-label">PiyasaTuru</label>
+                        <input asp-for="PiyasaTuru" class="form-control" />
+                        <span asp-validation-for="PiyasaTuru" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label asp-for="Year" class="form-label">Year</label>
+                        <input asp-for="Year" class="form-control" />
+                        <span asp-validation-for="Year" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label asp-for="YurtdisiGerekce" class="form-label">Yurtdisi Gerekce</label>
+                        <input asp-for="YurtdisiGerekce" class="form-control" />
+                        <span asp-validation-for="YurtdisiGerekce" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label asp-for="Distributor" class="form-label">Distributor</label>
+                        <input asp-for="Distributor" class="form-control" />
+                        <span asp-validation-for="Distributor" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <a asp-action="DetailIndex" class="btn btn-secondary form-control">Back to List</a>
+                </div>
+                <div class="col-md-6">
+                    <button type="submit" class="btn btn-primary form-control">Create</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

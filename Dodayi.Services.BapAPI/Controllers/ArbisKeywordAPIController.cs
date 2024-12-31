@@ -1,34 +1,36 @@
 ﻿using AutoMapper;
-using Dodayi.Services.BapAPI.Abstract;
+using Dodayi.Services.BapAPI.Data;
 using Dodayi.Services.BapAPI.Dto;
-using Microsoft.AspNetCore.Http;
+using Dodayi.Services.BapAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Dodayi.Services.BapAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/arbiskeyword")]
     [ApiController]
-    public class ArbisKeywordController : ControllerBase
+    public class ArbisKeywordAPIController : ControllerBase
     {
-        private readonly IArbisKeywordService _arbisKeywordService;
+        //private readonly IArbisKeywordService _arbisKeywordService;
+        private readonly ModelContext db;
         private Response response;
         private IMapper mapper;
 
-        public ArbisKeywordController(IArbisKeywordService arbisKeywordService, IMapper _mapper)
+        public ArbisKeywordAPIController(IMapper _mapper, ModelContext _db)
         {
-            _arbisKeywordService = arbisKeywordService;
+            //_arbisKeywordService = arbisKeywordService;
             response = new Response();
             mapper = _mapper;
+            db = _db;
         }
 
         [HttpGet]
-        [Route("ArbisKeywordList")]
-        public IActionResult<Response> ArbisKeywordList(int id)
+        [Route("byParent/{parentId}")]
+        public Response GetListByParentId(int parentId)
         {
             try
             {
-                var list = _arbisKeywordService.GetArbisKeys(id);
-                response.Result = mapper.Map<IEnumerable<ArbisKeywordDto>>(list);
+                IEnumerable<ArbisKeyword> objlist = db.ArbisKeywords.Where(u=>u.ParentId == parentId).ToList();
+                response.Result = mapper.Map<IEnumerable<ArbisKeywordDto>>(objlist);
 
             }
             catch (Exception ex)
@@ -37,16 +39,16 @@ namespace Dodayi.Services.BapAPI.Controllers
                 response.Message = ex.Message;
             }
 
-            return OK(response);
+            return response;
         }
 
         [HttpGet]
-        [Route("ArbisKeyword")]
-        public IActionResult ArbisKeyword(int id)
+        [Route("byId/{id:int}")]
+        public Response Get(int id)
         {
             try
             {
-                var obj = _arbisKeywordService.GetArbisKey(id);
+                var obj = db.ArbisKeywords.First(u => u.Id == id);
                 response.Result = mapper.Map<ArbisKeywordDto>(obj);
             }
             catch (Exception ex)

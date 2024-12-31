@@ -4,6 +4,8 @@ using Dodayi.Services.BapAPI.Data;
 using Dodayi.Services.BapAPI.Repository.IRepository;
 using Dodayi.Services.BapAPI.Repository;
 using Microsoft.EntityFrameworkCore;
+using AutoMapper;
+using Dodayi.Services.BapAPI;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,29 +17,23 @@ builder.Services.AddDbContext<ModelContext>(options =>
     );
 });
 
-// Repository Registrations
-builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-
-// Service Registrations
-builder.Services.AddScoped<IArbisKeywordService, ArbisKeywordManager>();
+// Mapping
+IMapper mapper = MappingConfig.RegisterMaps().CreateMapper();
+builder.Services.AddSingleton(mapper);
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 // Controller ve API related
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// CORS Policy
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowAll",
-        builder =>
-        {
-            builder
-                .AllowAnyOrigin()
-                .AllowAnyMethod()
-                .AllowAnyHeader();
-        });
-});
+
+//// Repository Registrations
+//builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+//// Service Registrations
+//builder.Services.AddScoped<IArbisKeywordService, ArbisKeywordManager>();
+
 
 var app = builder.Build();
 
@@ -49,7 +45,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseCors("AllowAll");
 app.UseAuthorization();
 app.MapControllers();
 

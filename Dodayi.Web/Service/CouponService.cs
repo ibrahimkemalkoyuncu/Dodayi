@@ -4,7 +4,7 @@ using Dodayi.Web.Utility;
 
 namespace Dodayi.Web.Service
 {
-    public class CouponService : ICouponService
+    public class CouponService : ICouponService 
     {
         private readonly IBaseService _baseService;
 

@@ -1,0 +1,34 @@
+﻿@model ArbisKeywordDto
+
+<div class="card shadow border-0 mt-4">
+    <div class="card-header bg-secondary bg-gradient py-3 text-center">
+        <h1 class="text-white">Arbis Keyword Detail</h1>
+    </div>
+    <div class="card-body">
+        <dl class="row">
+            <dt class="col-sm-3">Id</dt>
+            <dd class="col-sm-9">@Model.Id</dd>
+
+            <dt class="col-sm-3">Turkish</dt>
+            <dd class="col-sm-9">@Model.Turkish</dd>
+
+            <dt class="col-sm-3">English</dt>
+            <dd class="col-sm-9">@Model.English</dd>
+
+            <dt class="col-sm-3">ArbisId</dt>
+            <dd class="col-sm-9">@Model.ArbisId</dd>
+
+            <dt class="col-sm-3">TempId</dt>
+            <dd class="col-sm-9">@Model.TempId</dd>
+
+            <dt class="col-sm-3">ParentId</dt>
+            <dd class="col-sm-9">@Model.ParentId</dd>
+        </dl>
+    </div>
+    <div class="card-footer text-end">
+        @* <a asp-action="ArbisKeywordIndex" class="btn btn-outline-primary">Back to List</a> *@
+
+        <a asp-controller="ArbisKeyword" asp-action="ArbisKeywordFilterByParentIdGoToIndex" class="btn btn-outline-primary">Back to Home</a>
+
+    </div>
+</div>
