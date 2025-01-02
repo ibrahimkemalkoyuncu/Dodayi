@@ -20,16 +20,20 @@ namespace Dodayi.Web.Controllers
 
             Response? response = await _couponService.GetAllCouponAsync();
 
-            if(response != null & response.IsSuccess)
+            if (response != null & response.IsSuccess)
             {
                 list = JsonConvert.DeserializeObject<List<CouponDto>>(Convert.ToString(response.Result));
+            }
+            else
+            {
+                TempData["error"] = response.Message;
             }
 
             return View(list);
         }
 
         public async Task<IActionResult> CouponCreate()
-        {      
+        {
 
             return View();
         }
@@ -37,15 +41,58 @@ namespace Dodayi.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> CouponCreate(CouponDto model)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 Response? response = await _couponService.CreateCouponAsync(model);
                 if (response != null && response.IsSuccess)
                 {
-                    //return RedirectToAction("CouponIndex");
+                    TempData["success"] = "Coupon create successfully";
                     return RedirectToAction(nameof(CouponIndex));
                 }
+                else
+                {
+                    TempData["error"] = response.Message;
+                }
             }
+
+            return View(model);
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> CouponDelete(int couponId)
+        {
+            Response? response = await _couponService.GetCouponByIdAsync(couponId);
+
+            if (response != null && response.IsSuccess)
+            {
+                CouponDto? model = JsonConvert.DeserializeObject<CouponDto>(Convert.ToString(response.Result));
+                TempData["success"] = "Coupon created successfully";
+                return View(model);
+            }
+            else
+            {
+                TempData["error"] = response?.Message;
+            }
+
+            return NotFound();
+        }
+
+
+        [HttpDelete]
+        public async Task<IActionResult> CouponDelete(CouponDto model)
+        {
+
+                Response? response = await _couponService.DeleteCouponAsync(model.CouponId);
+                if (response != null && response.IsSuccess)
+                {
+                    TempData["success"] = "Coupon deleted successfully";
+                    return RedirectToAction(nameof(CouponIndex));
+                }
+                else
+                {
+                    TempData["error"] = response?.Message;
+                }
+            
 
             return View(model);
         }

@@ -117,6 +117,7 @@ namespace Dodayi.Services.CouponAPI.Controllers
         }
 
         [HttpDelete]
+        [Route("{id:int}")]
         public Response Delete(int id)
         {
             try
