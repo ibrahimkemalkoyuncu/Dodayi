@@ -36,20 +36,24 @@ namespace Dodayi.Web.Controllers
             List<DetailDto>? allItems = new();
 
             Response? response = await _detailService.GetAllDetaiAsync();
-            if (response != null && response.IsSuccess)
+            if (response != null && response.IsSuccess && response.Result != null)
             {
-                allItems = JsonConvert.DeserializeObject<List<DetailDto>>(Convert.ToString(response.Result));
+                var resultString = Convert.ToString(response.Result);
+                if (!string.IsNullOrEmpty(resultString))
+                {
+                    allItems = JsonConvert.DeserializeObject<List<DetailDto>?>(resultString);
+                }
             }
 
             // Pagination işlemi
-            var items = allItems
-                .Skip((pageNumber - 1) * PageSize)
+            var items = (allItems ?? new List<DetailDto>())
+               .Skip((pageNumber - 1) * PageSize)
                 .Take(PageSize)
                 .ToList();
 
             var pagedList = new PagedList<DetailDto>(
                 items,
-                allItems.Count,
+                (allItems ?? new List<DetailDto>()).Count,
                 pageNumber,
                 PageSize
             );
@@ -57,11 +61,11 @@ namespace Dodayi.Web.Controllers
             return View(pagedList);
         }
 
-        public async Task<IActionResult> AddMakineTechizatDetail()
-        {
+        //public async Task<IActionResult> AddMakineTechizatDetail()
+        //{
 
-            return View();
-        }
+        //    return View();
+        //}
 
         [HttpPost]
         public async Task<IActionResult> AddMakineTechizatDetail(DetailDto model)
@@ -88,9 +92,14 @@ namespace Dodayi.Web.Controllers
 
             Response? response = await _detailService.ProjeyeIdveTureGoreDetailGetirAsync(projectId, PiyasaTuru);
 
-            if (response != null & response.IsSuccess)
+            if (response != null && response.IsSuccess && response.Result != null)
             {
-                list = JsonConvert.DeserializeObject<List<DetailDto>>(Convert.ToString(response.Result));
+                var resultString = Convert.ToString(response.Result);
+
+                if (!string.IsNullOrEmpty(resultString))
+                {
+                    list = JsonConvert.DeserializeObject<List<DetailDto>?>(resultString);
+                }
             }
 
             return View(list);

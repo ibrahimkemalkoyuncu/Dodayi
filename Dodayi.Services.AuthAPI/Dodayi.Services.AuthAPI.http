@@ -1,0 +1,6 @@
+@Dodayi.Services.AuthAPI_HostAddress = http://localhost:5191
+
+GET {{Dodayi.Services.AuthAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

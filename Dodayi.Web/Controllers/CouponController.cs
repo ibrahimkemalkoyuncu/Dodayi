@@ -20,19 +20,23 @@ namespace Dodayi.Web.Controllers
 
             Response? response = await _couponService.GetAllCouponAsync();
 
-            if (response != null & response.IsSuccess)
+            if (response != null && response.IsSuccess && response.Result != null)
             {
-                list = JsonConvert.DeserializeObject<List<CouponDto>>(Convert.ToString(response.Result));
+                var resultString = Convert.ToString(response.Result);
+                if (!string.IsNullOrEmpty(resultString))
+                {
+                    list = JsonConvert.DeserializeObject<List<CouponDto>>(resultString);
+                }
             }
             else
             {
-                TempData["error"] = response.Message;
+                TempData["error"] = response?.Message;
             }
 
             return View(list);
         }
 
-        public async Task<IActionResult> CouponCreate()
+        public IActionResult CouponCreate()
         {
 
             return View();
@@ -51,7 +55,7 @@ namespace Dodayi.Web.Controllers
                 }
                 else
                 {
-                    TempData["error"] = response.Message;
+                    TempData["error"] = response?.Message;
                 }
             }
 
@@ -63,11 +67,15 @@ namespace Dodayi.Web.Controllers
         {
             Response? response = await _couponService.GetCouponByIdAsync(couponId);
 
-            if (response != null && response.IsSuccess)
+            if (response != null && response.IsSuccess && response.Result != null)
             {
-                CouponDto? model = JsonConvert.DeserializeObject<CouponDto>(Convert.ToString(response.Result));
-                TempData["success"] = "Coupon created successfully";
-                return View(model);
+                var resultString = Convert.ToString(response.Result);
+                if (!string.IsNullOrEmpty(resultString))
+                {
+                    CouponDto? model = JsonConvert.DeserializeObject<CouponDto>(resultString);
+                    TempData["success"] = "Coupon created successfully";
+                    return View(model);
+                }
             }
             else
             {

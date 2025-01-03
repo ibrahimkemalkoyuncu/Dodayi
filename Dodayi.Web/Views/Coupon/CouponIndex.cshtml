@@ -1,5 +1,94 @@
 ﻿@model IEnumerable<CouponDto>
 
+<div class="container-fluid px-4">
+    <div class="card shadow border-0 mt-4">
+        <div class="card-header bg-primary bg-gradient py-3">
+            <div class="row align-items-center">
+                <div class="col-12 text-center">
+                    <h2 class="text-white mb-0">Coupons Management</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-body p-4">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div class="d-flex align-items-center">
+                    <span class="badge bg-primary rounded-pill">@Model.Count()</span>
+                    <span class="ms-2 text-muted">Active Coupons</span>
+                </div>
+                <div>
+                    <a asp-action="CouponCreate" class="btn btn-primary">
+                        <i class="bi bi-plus-circle me-2"></i>Create New Coupon
+                    </a>
+                </div>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th scope="col">Coupon Code</th>
+                            <th scope="col">Discount Amount</th>
+                            <th scope="col">Minimum Amount</th>
+                            <th scope="col" class="text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    <span class="fw-bold">@item.CouponCode</span>
+                                </td>
+                                <td>
+                                    <span class="text-success fw-bold">@item.DiscountAmount.ToString("C")</span>
+                                </td>
+                                <td>
+                                    <span class="text-muted">@item.MinAmount.ToString("C")</span>
+                                </td>
+                                <td class="text-center">
+                                    <div class="btn-group" role="group">
+                                        <a asp-action="CouponDelete"
+                                           asp-route-couponId="@item.CouponId"
+                                           class="btn btn-outline-danger btn-sm"
+                                           data-bs-toggle="tooltip"
+                                           data-bs-placement="top"
+                                           title="Delete Coupon">
+                                            <i class="bi bi-trash"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            @if (!Model.Any())
+            {
+                <div class="text-center py-4">
+                    <i class="bi bi-ticket-perforated text-muted" style="font-size: 3rem;"></i>
+                    <p class="text-muted mt-2">No coupons found. Create your first coupon to get started.</p>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Initialize tooltips
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        });
+    </script>
+}
+
+
+
+@* @model IEnumerable<CouponDto>
+
 
 <div class="card shadow border-0 mt-4">
 	<div class="card-header bg-secondary bg-gradient ml-0 py-3">
@@ -59,4 +148,4 @@
 
 	</div>
 
-</div>
+</div> *@

@@ -8,7 +8,7 @@ namespace Dodayi.Services.CouponAPI.Models
         public int CouponId { get; set; }
 
         [Required]
-        public string CouponCode { get; set; }
+        public required string CouponCode { get; set; }
 
         [Required]
         public double DiscountAmount { get; set; }

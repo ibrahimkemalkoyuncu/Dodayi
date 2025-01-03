@@ -106,7 +106,7 @@ namespace Dodayi.Services.BapAPI.Controllers
         {
             try
             {
-                IEnumerable<Detail> objList = null;
+                IEnumerable<Detail>? objList = null;
 
                 if (tur == null)
                 {

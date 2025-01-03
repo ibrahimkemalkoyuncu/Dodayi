@@ -40,7 +40,7 @@ namespace Dodayi.Services.BapAPI.Repository
         }
         public T GetByID(int? id)
         {
-            return dbSet.Find(id);
+            return dbSet.Find(id)!;
         }
 
         // oracle veritabanı ıcın gecerlı.

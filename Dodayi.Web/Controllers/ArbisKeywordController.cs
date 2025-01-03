@@ -20,9 +20,13 @@ namespace Dodayi.Web.Controllers
 
             Response? response = await _arbisKeywordService.GetListByParentIdAsync(parentId);
 
-            if (response != null & response.IsSuccess)
+            if (response != null && response.IsSuccess && response.Result != null)
             {
-                list = JsonConvert.DeserializeObject<List<ArbisKeywordDto>>(Convert.ToString(response.Result));
+                var resultString = Convert.ToString(response.Result);
+                if (!string.IsNullOrEmpty(resultString))
+                {
+                    list = JsonConvert.DeserializeObject<List<ArbisKeywordDto>>(resultString);
+                }
             }
 
             return View(list);
@@ -34,9 +38,13 @@ namespace Dodayi.Web.Controllers
 
             Response? response = await _arbisKeywordService.GetByIdAsync(id);
 
-            if (response != null & response.IsSuccess)
+            if (response != null && response.IsSuccess && response.Result != null)
             {
-                item = JsonConvert.DeserializeObject<ArbisKeywordDto>(Convert.ToString(response.Result));
+                var resultString = Convert.ToString(response.Result);
+                if (!string.IsNullOrEmpty(resultString))
+                {
+                    item = JsonConvert.DeserializeObject<ArbisKeywordDto>(resultString);
+                }
             }
 
             return View(item);

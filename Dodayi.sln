@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dodayi.Services.BapAPI", "D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dodayi.Web", "Dodayi.Web\Dodayi.Web.csproj", "{613B496E-1FA4-491B-822B-991891206779}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dodayi.Services.AuthAPI", "Dodayi.Services.AuthAPI\Dodayi.Services.AuthAPI.csproj", "{F72BBD01-9832-4FC1-91E8-CC2AFDA016C7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +37,10 @@ Global
 		{613B496E-1FA4-491B-822B-991891206779}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{613B496E-1FA4-491B-822B-991891206779}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{613B496E-1FA4-491B-822B-991891206779}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F72BBD01-9832-4FC1-91E8-CC2AFDA016C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F72BBD01-9832-4FC1-91E8-CC2AFDA016C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F72BBD01-9832-4FC1-91E8-CC2AFDA016C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F72BBD01-9832-4FC1-91E8-CC2AFDA016C7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -43,6 +49,7 @@ Global
 		{F99ECE77-EA1C-4375-BCA0-E36164382683} = {114312DA-DBDF-44B0-90E8-B66A581AB51A}
 		{B7923192-1D8E-4054-929E-245D10438CC7} = {114312DA-DBDF-44B0-90E8-B66A581AB51A}
 		{613B496E-1FA4-491B-822B-991891206779} = {75C3848F-6438-441B-8117-5614F0FEA4A6}
+		{F72BBD01-9832-4FC1-91E8-CC2AFDA016C7} = {114312DA-DBDF-44B0-90E8-B66A581AB51A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9920CEEC-766D-4409-A88B-FB61A3AE1946}

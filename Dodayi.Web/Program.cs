@@ -11,11 +11,11 @@ builder.Services.AddHttpClient();
 
 
 builder.Services.AddHttpClient<ICouponService, CouponService>();
-SD.CouponAPIBase = builder.Configuration["ServiceUrls:CouponAPI"];
+SD.CouponAPIBase = builder.Configuration["ServiceUrls:CouponAPI"] ?? string.Empty;
 
 builder.Services.AddHttpClient<IArbisKeywordService, ArbisKeywordService>();
 builder.Services.AddHttpClient<IDetailService, DetailService>();
-SD.BapAPIBase = builder.Configuration["ServiceUrls:BapAPI"];
+SD.BapAPIBase = builder.Configuration["ServiceUrls:BapAPI"] ?? string.Empty;
 
 
 

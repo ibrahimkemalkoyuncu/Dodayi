@@ -30,7 +30,7 @@ namespace Dodayi.Web.Service
                     message.Content = new StringContent(JsonConvert.SerializeObject(request.Data), Encoding.UTF8, "application/json");
                 }
 
-                HttpResponseMessage apiResponse = null;
+                HttpResponseMessage? apiResponse = null;
 
                 switch (request.ApiType)
                 {
@@ -112,15 +112,15 @@ namespace Dodayi.Web.Service
                     //    break;
                     case System.Net.HttpStatusCode.Unauthorized:
                         return new Response { IsSuccess = false, Message = "Unauthorized" };
-                        break;
+                       
                     //case System.Net.HttpStatusCode.PaymentRequired:
                     //    break;
                     case System.Net.HttpStatusCode.Forbidden:
                         return new Response { IsSuccess = false, Message = "Access Denied" };
-                        break;
+                       
                     case System.Net.HttpStatusCode.NotFound:
                         return new Response { IsSuccess = false, Message = "Not Found" };
-                        break;
+                       
                     //case System.Net.HttpStatusCode.MethodNotAllowed:
                     //    break;
                     //case System.Net.HttpStatusCode.NotAcceptable:
@@ -169,7 +169,7 @@ namespace Dodayi.Web.Service
                     //    break;
                     case System.Net.HttpStatusCode.InternalServerError:
                         return new Response { IsSuccess = false, Message = "Internal Server Error" };
-                        break;
+                       
                     //case System.Net.HttpStatusCode.NotImplemented:
                     //    break;
                     //case System.Net.HttpStatusCode.BadGateway:
@@ -194,7 +194,7 @@ namespace Dodayi.Web.Service
                         var apiContent = await apiResponse.Content.ReadAsStringAsync();
                         var apiResponseDto = JsonConvert.DeserializeObject<Response>(apiContent);
                         return apiResponseDto;
-                        break;
+                       
                 }
 
             }
