@@ -4,7 +4,7 @@ using Dodayi.Web.Utility;
 
 namespace Dodayi.Web.Service
 {
-    public class CouponService : ICouponService 
+    public class CouponService : ICouponService
     {
         private readonly IBaseService _baseService;
 
@@ -31,7 +31,7 @@ namespace Dodayi.Web.Service
                 //Url = SD.CouponAPIBase + "/GetAllCoupons",
                 //Url = SD.CouponAPIBase + "/api/coupons",
                 Url = SD.CouponAPIBase + "/api/coupon",
-            }); 
+            });
         }
         public async Task<Response?> GetCouponByIdAsync(int id)
         {
@@ -58,7 +58,7 @@ namespace Dodayi.Web.Service
                 ApiType = SD.ApiType.PUT,
                 Url = SD.CouponAPIBase + "/api/coupon",
                 Data = couponDto
-            }); 
+            });
         }
         public async Task<Response?> DeleteCouponAsync(int id)
         {
