@@ -11,19 +11,47 @@ namespace Dodayi.Services.AuthAPI.Service
         private readonly AppDbContext _db;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly IJwtTokenGenerator _jwtTokenGenerator;
 
-        public AuthService(AppDbContext db, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
+        public AuthService(AppDbContext db, IJwtTokenGenerator jwtTokenGenerator,UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
         {
+            _jwtTokenGenerator = jwtTokenGenerator;
             _db = db;
             _userManager = userManager;
             _roleManager = roleManager;
         }
-        public Task<LoginResponse> Login(LoginRequest dto)
+        public async Task<LoginResponseDto> Login(LoginRequestDto dto)
         {
-            throw new NotImplementedException();
-        }
+            var user = _db.ApplicationUsers.FirstOrDefault(u => u.UserName.ToLower() == dto.UserName.ToLower());
 
-        public async Task<string> Register(RegisterationRequest dto)
+            bool isValid = await _userManager.CheckPasswordAsync(user, dto.Password);
+
+            if (user == null || isValid == false)
+            {
+                return new LoginResponseDto() { User = null, Token = "" };
+            }
+
+            // if user was found, Generated JWT Token
+            var token = _jwtTokenGenerator.GenerateToken(user);    
+
+
+            UserDto userDto = new()
+            {
+                Email = user.Email,
+                ID = user.Id,
+                Name = user.Name,
+                PhoneNumber = user.PhoneNumber
+            };
+
+            LoginResponseDto loginResponse = new()
+            {
+                User = userDto,
+                Token = token
+            };
+
+            return loginResponse;
+        }
+        public async Task<string> Register(RegisterationRequestDto dto)
         {
             ApplicationUser user = new ApplicationUser
             {
@@ -41,7 +69,7 @@ namespace Dodayi.Services.AuthAPI.Service
                 {
                     var userToReturn = _db.ApplicationUsers.First(u => u.UserName == dto.Email);
 
-                    User userDto = new User
+                    UserDto userDto = new()
                     {
                         Email = userToReturn.Email,
                         ID = userToReturn.Id,   

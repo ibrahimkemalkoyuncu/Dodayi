@@ -1,6 +1,6 @@
 ﻿namespace Dodayi.Services.AuthAPI.Dto
 {
-    public class LoginRequest
+    public class LoginRequestDto
     {
         public string UserName { get; set; }
      

@@ -4,7 +4,7 @@ namespace Dodayi.Services.AuthAPI.Service.IService
 {
     public interface IAuthService
     {
-        Task<string> Register(RegisterationRequest dto);
-        Task<LoginResponse> Login(LoginRequest dto);
+        Task<string> Register(RegisterationRequestDto dto);
+        Task<LoginResponseDto> Login(LoginRequestDto dto);
     }
 }

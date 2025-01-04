@@ -1,6 +1,6 @@
 ﻿namespace Dodayi.Services.AuthAPI.Dto
 {
-    public class User
+    public class UserDto
     {
         public string ID { get; set; }
         public string Email { get; set; }

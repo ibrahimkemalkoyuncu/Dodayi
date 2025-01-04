@@ -1,6 +1,6 @@
 ﻿namespace Dodayi.Services.AuthAPI.Dto
 {
-    public class RegisterationRequest
+    public class RegisterationRequestDto
     {
         public string Email { get; set; }
         public string Name { get; set; }
