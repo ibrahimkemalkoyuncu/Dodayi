@@ -18,7 +18,7 @@ namespace Dodayi.Web.Controllers
         {
             List<CouponDto>? list = new();
 
-            Response? response = await _couponService.GetAllCouponAsync();
+            ResponseDto? response = await _couponService.GetAllCouponAsync();
 
             if (response != null && response.IsSuccess && response.Result != null)
             {
@@ -47,7 +47,7 @@ namespace Dodayi.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                Response? response = await _couponService.CreateCouponAsync(model);
+                ResponseDto? response = await _couponService.CreateCouponAsync(model);
                 if (response != null && response.IsSuccess)
                 {
                     TempData["success"] = "Coupon create successfully";
@@ -65,7 +65,7 @@ namespace Dodayi.Web.Controllers
 
         public async Task<IActionResult> CouponDelete(int couponId)
         {
-            Response? response = await _couponService.GetCouponByIdAsync(couponId);
+            ResponseDto? response = await _couponService.GetCouponByIdAsync(couponId);
 
             if (response != null && response.IsSuccess && response.Result != null)
             {
@@ -89,7 +89,7 @@ namespace Dodayi.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> CouponDelete(CouponDto model)
         {
-            Response? response = await _couponService.DeleteCouponAsync(model.CouponId);
+            ResponseDto? response = await _couponService.DeleteCouponAsync(model.CouponId);
          
             if (response != null && response.IsSuccess)
             {

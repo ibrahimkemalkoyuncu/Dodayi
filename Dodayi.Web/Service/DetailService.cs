@@ -13,9 +13,9 @@ namespace Dodayi.Web.Service
             _baseService = baseService;
         }
 
-        public async Task<Response?> GetAllDetaiAsync()
+        public async Task<ResponseDto?> GetAllDetaiAsync()
         {
-            return await _baseService.SendAsync(new Request
+            return await _baseService.SendAsync(new RequestDto
             {
                 ApiType = SD.ApiType.GET,
                 Url = SD.BapAPIBase + "/api/detail/get",
@@ -23,9 +23,9 @@ namespace Dodayi.Web.Service
         }
 
 
-        public async Task<Response?> AddMakineTechizatDetailAsync(DetailDto detailDto)
+        public async Task<ResponseDto?> AddMakineTechizatDetailAsync(DetailDto detailDto)
         {
-            return await _baseService.SendAsync(new Request
+            return await _baseService.SendAsync(new RequestDto
             {
                 ApiType = SD.ApiType.POST,
                 Url = SD.BapAPIBase + "/api/detail/AddMakineTechizatDetail",
@@ -33,9 +33,9 @@ namespace Dodayi.Web.Service
             });
         }
 
-        public async Task<Response?> ProjeyeIdveTureGoreDetailGetirAsync(long projectId, int? tur)
+        public async Task<ResponseDto?> ProjeyeIdveTureGoreDetailGetirAsync(long projectId, int? tur)
         {
-            return await _baseService.SendAsync(new Request
+            return await _baseService.SendAsync(new RequestDto
             {
                 ApiType = SD.ApiType.GET,  
                 // Query String 

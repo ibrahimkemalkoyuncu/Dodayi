@@ -4,6 +4,6 @@ namespace Dodayi.Web.Service.IService
 {
     public interface IBaseService
     {
-        Task<Response?> SendAsync(Request request);
+        Task<ResponseDto?> SendAsync(RequestDto request);
     }
 }

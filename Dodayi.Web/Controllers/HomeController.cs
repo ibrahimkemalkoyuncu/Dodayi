@@ -1,4 +1,6 @@
 using Dodayi.Web.Models;
+using Dodayi.Web.Utility;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -18,6 +20,7 @@ namespace Dodayi.Web.Controllers
             return View();
         }
 
+        [Authorize(Roles =SD.RoleAdmin)]
         public IActionResult Privacy()
         {
             return View();

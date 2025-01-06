@@ -1,6 +1,7 @@
 using Dodayi.Web.Service;
 using Dodayi.Web.Service.IService;
 using Dodayi.Web.Utility;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,19 +24,32 @@ builder.Services.AddScoped<IBaseService, BaseService>();
 builder.Services.AddScoped<ICouponService, CouponService>();
 builder.Services.AddScoped<IArbisKeywordService, ArbisKeywordService>();
 builder.Services.AddScoped<IDetailService, DetailService>();
+   
 
-// CORS Policy Tanýmlama
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowAll",
-        builder =>
-        {
-            builder
-                .AllowAnyOrigin()
-                .AllowAnyMethod()
-                .AllowAnyHeader();
-        });
-});
+// Register IAuthService and ITokenProvider
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<ITokenProvider, TokenProvider>();
+
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options=>
+    {
+        options.ExpireTimeSpan = TimeSpan.FromHours(10);
+        options.LoginPath = "/Auth/Login";
+        options.AccessDeniedPath = "/Auth/AccessDenied";
+    });
+
+//// CORS Policy Tanýmlama
+//builder.Services.AddCors(options =>
+//{
+//    options.AddPolicy("AllowAll",
+//        builder =>
+//        {
+//            builder
+//                .AllowAnyOrigin()
+//                .AllowAnyMethod()
+//                .AllowAnyHeader();
+//        });
+//});
 
 
 var app = builder.Build();
@@ -54,7 +68,10 @@ app.UseCors("AllowAll");
 
 app.UseRouting();
 
+app.UseAuthentication();
+
 app.UseAuthorization();
+
 
 app.MapStaticAssets();
 

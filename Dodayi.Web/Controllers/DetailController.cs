@@ -35,7 +35,7 @@ namespace Dodayi.Web.Controllers
             int pageNumber = page ?? 1;
             List<DetailDto>? allItems = new();
 
-            Response? response = await _detailService.GetAllDetaiAsync();
+            ResponseDto? response = await _detailService.GetAllDetaiAsync();
             if (response != null && response.IsSuccess && response.Result != null)
             {
                 var resultString = Convert.ToString(response.Result);
@@ -72,7 +72,7 @@ namespace Dodayi.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                Response? response = await _detailService.AddMakineTechizatDetailAsync(model);
+                ResponseDto? response = await _detailService.AddMakineTechizatDetailAsync(model);
                 if (response != null && response.IsSuccess)
                 {
                     return RedirectToAction(nameof(DetailIndex));
@@ -90,7 +90,7 @@ namespace Dodayi.Web.Controllers
 
             List<DetailDto>? list = new();
 
-            Response? response = await _detailService.ProjeyeIdveTureGoreDetailGetirAsync(projectId, PiyasaTuru);
+            ResponseDto? response = await _detailService.ProjeyeIdveTureGoreDetailGetirAsync(projectId, PiyasaTuru);
 
             if (response != null && response.IsSuccess && response.Result != null)
             {

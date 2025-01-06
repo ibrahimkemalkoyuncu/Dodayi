@@ -4,8 +4,8 @@ namespace Dodayi.Web.Service.IService
 {
     public interface IDetailService
     {
-        Task<Response?> GetAllDetaiAsync();
-        Task<Response?> AddMakineTechizatDetailAsync(DetailDto detailDto);
-        Task<Response?> ProjeyeIdveTureGoreDetailGetirAsync(long projectId, int? tur);
+        Task<ResponseDto?> GetAllDetaiAsync();
+        Task<ResponseDto?> AddMakineTechizatDetailAsync(DetailDto detailDto);
+        Task<ResponseDto?> ProjeyeIdveTureGoreDetailGetirAsync(long projectId, int? tur);
     }
 }

@@ -13,18 +13,18 @@ namespace Dodayi.Web.Service
             _baseService = baseService;
         }
 
-        public async Task<Response?> GetListByParentIdAsync(int parentId)
+        public async Task<ResponseDto?> GetListByParentIdAsync(int parentId)
         {
-            return await _baseService.SendAsync(new Request
+            return await _baseService.SendAsync(new RequestDto
             {
                 ApiType = SD.ApiType.GET,
                 Url = SD.BapAPIBase + "/api/arbiskeyword/byParent/" + parentId,
             }); 
         }
 
-        public async Task<Response?> GetByIdAsync(int Id)
+        public async Task<ResponseDto?> GetByIdAsync(int Id)
         {
-            return await _baseService.SendAsync(new Request
+            return await _baseService.SendAsync(new RequestDto
             {
                 ApiType = SD.ApiType.GET,
                 Url = SD.BapAPIBase + "/api/arbiskeyword/byId/" + Id,

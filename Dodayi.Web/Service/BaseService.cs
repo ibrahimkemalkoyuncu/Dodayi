@@ -13,7 +13,7 @@ namespace Dodayi.Web.Service
         {
             httpClientFactory = _httpClientFactory;
         }
-        public async Task<Response?> SendAsync(Request request)
+        public async Task<ResponseDto?> SendAsync(RequestDto request)
         {
             try
             {
@@ -111,15 +111,15 @@ namespace Dodayi.Web.Service
                     //case System.Net.HttpStatusCode.BadRequest:
                     //    break;
                     case System.Net.HttpStatusCode.Unauthorized:
-                        return new Response { IsSuccess = false, Message = "Unauthorized" };
+                        return new ResponseDto { IsSuccess = false, Message = "Unauthorized" };
                        
                     //case System.Net.HttpStatusCode.PaymentRequired:
                     //    break;
                     case System.Net.HttpStatusCode.Forbidden:
-                        return new Response { IsSuccess = false, Message = "Access Denied" };
+                        return new ResponseDto { IsSuccess = false, Message = "Access Denied" };
                        
                     case System.Net.HttpStatusCode.NotFound:
-                        return new Response { IsSuccess = false, Message = "Not Found" };
+                        return new ResponseDto { IsSuccess = false, Message = "Not Found" };
                        
                     //case System.Net.HttpStatusCode.MethodNotAllowed:
                     //    break;
@@ -168,7 +168,7 @@ namespace Dodayi.Web.Service
                     //case System.Net.HttpStatusCode.UnavailableForLegalReasons:
                     //    break;
                     case System.Net.HttpStatusCode.InternalServerError:
-                        return new Response { IsSuccess = false, Message = "Internal Server Error" };
+                        return new ResponseDto { IsSuccess = false, Message = "Internal Server Error" };
                        
                     //case System.Net.HttpStatusCode.NotImplemented:
                     //    break;
@@ -192,7 +192,7 @@ namespace Dodayi.Web.Service
                     //    break;
                     default:
                         var apiContent = await apiResponse.Content.ReadAsStringAsync();
-                        var apiResponseDto = JsonConvert.DeserializeObject<Response>(apiContent);
+                        var apiResponseDto = JsonConvert.DeserializeObject<ResponseDto>(apiContent);
                         return apiResponseDto;
                        
                 }
@@ -200,7 +200,7 @@ namespace Dodayi.Web.Service
             }
             catch (Exception ex)
             {
-                var dto = new Response { IsSuccess = false, Message = ex.Message.ToString() };
+                var dto = new ResponseDto { IsSuccess = false, Message = ex.Message.ToString() };
 
                 return dto;
             }

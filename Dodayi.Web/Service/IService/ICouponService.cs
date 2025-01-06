@@ -4,11 +4,11 @@ namespace Dodayi.Web.Service.IService
 {
     public interface ICouponService
     {
-        Task<Response?> GetCouponAsync(string couponCode);
-        Task<Response?> GetAllCouponAsync();
-        Task<Response?> GetCouponByIdAsync(int id);
-        Task<Response?> CreateCouponAsync(CouponDto couponDto);
-        Task<Response?> UpdateCouponAsync(CouponDto couponDto);
-        Task<Response?> DeleteCouponAsync(int id);  
+        Task<ResponseDto?> GetCouponAsync(string couponCode);
+        Task<ResponseDto?> GetAllCouponAsync();
+        Task<ResponseDto?> GetCouponByIdAsync(int id);
+        Task<ResponseDto?> CreateCouponAsync(CouponDto couponDto);
+        Task<ResponseDto?> UpdateCouponAsync(CouponDto couponDto);
+        Task<ResponseDto?> DeleteCouponAsync(int id);  
     }
 }

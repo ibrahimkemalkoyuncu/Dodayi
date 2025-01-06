@@ -1,7 +1,5 @@
 ﻿using Dodayi.Services.AuthAPI.Dto;
 using Dodayi.Services.AuthAPI.Service.IService;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Dodayi.Services.AuthAPI.Controllers
@@ -21,7 +19,7 @@ namespace Dodayi.Services.AuthAPI.Controllers
 
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] RegisterationRequestDto model)
+        public async Task<IActionResult> Register([FromBody] RegistrationRequestDto model)
         {
             var errorMessages = await _authService.Register(model);
             if (!string.IsNullOrEmpty(errorMessages))

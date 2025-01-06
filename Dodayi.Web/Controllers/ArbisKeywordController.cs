@@ -18,7 +18,7 @@ namespace Dodayi.Web.Controllers
         {
             List<ArbisKeywordDto>? list = new();
 
-            Response? response = await _arbisKeywordService.GetListByParentIdAsync(parentId);
+            ResponseDto? response = await _arbisKeywordService.GetListByParentIdAsync(parentId);
 
             if (response != null && response.IsSuccess && response.Result != null)
             {
@@ -36,7 +36,7 @@ namespace Dodayi.Web.Controllers
         {
             ArbisKeywordDto? item = new();
 
-            Response? response = await _arbisKeywordService.GetByIdAsync(id);
+            ResponseDto? response = await _arbisKeywordService.GetByIdAsync(id);
 
             if (response != null && response.IsSuccess && response.Result != null)
             {
