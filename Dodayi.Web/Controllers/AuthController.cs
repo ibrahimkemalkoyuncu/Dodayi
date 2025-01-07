@@ -30,7 +30,7 @@ namespace Dodayi.Web.Controllers
         public IActionResult Login()
         {
             LoginRequestDto loginRequestDto = new();
-            return View(loginRequestDto); 
+            return View(loginRequestDto);
         }
 
         [HttpPost]
@@ -136,6 +136,5 @@ namespace Dodayi.Web.Controllers
             var principal = new ClaimsPrincipal(identity);
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
         }
-
     }
 }

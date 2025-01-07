@@ -2,6 +2,7 @@
 using Dodayi.Services.CouponAPI.Data;
 using Dodayi.Services.CouponAPI.Dto;
 using Dodayi.Services.CouponAPI.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,6 +10,7 @@ namespace Dodayi.Services.CouponAPI.Controllers
 {
     [Route("api/coupon")]
     [ApiController]
+    [Authorize]
     public class CouponAPIController : ControllerBase
     {
         private readonly AppDbContext db;

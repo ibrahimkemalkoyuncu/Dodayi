@@ -1,0 +1,17 @@
+Entity Framework Core için Scaffold komutunu paylaşıyorum:
+
+Scaffold-DbContext "Server=DESKTOP-TFKJKGC\SQLEXPRESS;Database=AuthDB;Trusted_Connection=True;TrustServerCertificate=True" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models
+
+Eğer belirli tabloları seçmek isterseniz -Tables parametresini kullanabilirsiniz:
+Scaffold-DbContext "Server=DESKTOP-TFKJKGC\SQLEXPRESS;Database=AuthDB;Trusted_Connection=True;TrustServerCertificate=True" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models -Tables "Table1", "Table2"
+
+Önemli Noktalar:
+
+Package Manager Console'u açmadan önce projenizde Microsoft.EntityFrameworkCore.SqlServer ve Microsoft.EntityFrameworkCore.Tools paketlerinin yüklü olduğundan emin olun
+Eğer context sınıfına farklı bir isim vermek isterseniz -Context parametresini kullanabilirsiniz. Örneğin: -Context "AuthDbContext"
+Models yerine farklı bir klasöre çıktı almak isterseniz -OutputDir parametresini değiştirebilirsiniz
+Var olan modelleri güncellemek için komutu tekrar çalıştırdığınızda -Force parametresini ekleyin
+
+Modeller oluşturulduktan sonra Program.cs veya Startup.cs dosyanızda DbContext'i kaydetmeyi unutmayın:
+builder.Services.AddDbContext<AuthDBContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));

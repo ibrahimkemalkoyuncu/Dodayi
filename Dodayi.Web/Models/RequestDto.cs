@@ -1,6 +1,4 @@
-﻿using System.Net.Mime;
-using static Dodayi.Web.Utility.SD;
-
+﻿using static Dodayi.Web.Utility.SD;
 namespace Dodayi.Web.Models
 {
     public class RequestDto
@@ -10,6 +8,6 @@ namespace Dodayi.Web.Models
         public object? Data { get; set; }
         public string AccessToken { get; set; }
 
-        //public ContentType ContentType { get; set; } = ContentType.Json;
+        public ContentType ContentType { get; set; } = ContentType.Json;
     }
 }

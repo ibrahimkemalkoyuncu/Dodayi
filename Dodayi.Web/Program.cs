@@ -9,48 +9,30 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddHttpClient();
-
-
+//builder.Services.AddHttpClient<IProductService, ProductService>();
 builder.Services.AddHttpClient<ICouponService, CouponService>();
-SD.CouponAPIBase = builder.Configuration["ServiceUrls:CouponAPI"] ?? string.Empty;
-
-builder.Services.AddHttpClient<IArbisKeywordService, ArbisKeywordService>();
-builder.Services.AddHttpClient<IDetailService, DetailService>();
-SD.BapAPIBase = builder.Configuration["ServiceUrls:BapAPI"] ?? string.Empty;
-
-
-
-builder.Services.AddScoped<IBaseService, BaseService>();    
-builder.Services.AddScoped<ICouponService, CouponService>();
-builder.Services.AddScoped<IArbisKeywordService, ArbisKeywordService>();
-builder.Services.AddScoped<IDetailService, DetailService>();
-   
-
-// Register IAuthService and ITokenProvider
-builder.Services.AddScoped<IAuthService, AuthService>();
+//builder.Services.AddHttpClient<ICartService, CartService>();
+builder.Services.AddHttpClient<IAuthService, AuthService>();
+//builder.Services.AddHttpClient<IOrderService, OrderService>();
+SD.CouponAPIBase = builder.Configuration["ServiceUrls:CouponAPI"];
+SD.OrderAPIBase = builder.Configuration["ServiceUrls:OrderAPI"];
+SD.ShoppingCartAPIBase = builder.Configuration["ServiceUrls:ShoppingCartAPI"];
+SD.AuthAPIBase = builder.Configuration["ServiceUrls:AuthAPI"];
+SD.ProductAPIBase = builder.Configuration["ServiceUrls:ProductAPI"];
 builder.Services.AddScoped<ITokenProvider, TokenProvider>();
-
+builder.Services.AddScoped<IBaseService, BaseService>();
+//builder.Services.AddScoped<IOrderService, OrderService>();
+//builder.Services.AddScoped<IProductService, ProductService>();
+//builder.Services.AddScoped<ICartService, CartService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<ICouponService, CouponService>();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-    .AddCookie(options=>
+    .AddCookie(options =>
     {
         options.ExpireTimeSpan = TimeSpan.FromHours(10);
         options.LoginPath = "/Auth/Login";
         options.AccessDeniedPath = "/Auth/AccessDenied";
     });
-
-//// CORS Policy Tanýmlama
-//builder.Services.AddCors(options =>
-//{
-//    options.AddPolicy("AllowAll",
-//        builder =>
-//        {
-//            builder
-//                .AllowAnyOrigin()
-//                .AllowAnyMethod()
-//                .AllowAnyHeader();
-//        });
-//});
-
 
 var app = builder.Build();
 
@@ -63,22 +45,14 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
-app.UseCors("AllowAll");
+app.UseStaticFiles();
 
 app.UseRouting();
-
 app.UseAuthentication();
-
 app.UseAuthorization();
-
-
-app.MapStaticAssets();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}")
-    .WithStaticAssets();
-
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
