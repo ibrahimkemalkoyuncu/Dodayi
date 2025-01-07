@@ -30,7 +30,7 @@ namespace Dodayi.Web.Controllers
         public IActionResult Login()
         {
             LoginRequestDto loginRequestDto = new();
-            return View(loginRequestDto);
+            return View(loginRequestDto); 
         }
 
         [HttpPost]
