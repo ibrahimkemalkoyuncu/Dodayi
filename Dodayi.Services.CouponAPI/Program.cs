@@ -21,10 +21,6 @@ builder.Services.AddSingleton(mapper);
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddControllers();
-
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-//builder.Services.AddOpenApi();
-
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
@@ -52,10 +48,11 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
+var settingsSection = builder.Configuration.GetSection("AppSettings");
 
-var secret = builder.Configuration.GetValue<string>("AppSettings:Secret");
-var issuer = builder.Configuration.GetValue<string>("AppSettings:Issuer");
-var audience = builder.Configuration.GetValue<string>("AppSettings:Audience");
+var secret = settingsSection.GetValue<string>("Secret");
+var issuer = settingsSection.GetValue<string>("Issuer");
+var audience = settingsSection.GetValue<string>("Audience");
 
 var key = Encoding.UTF8.GetBytes(secret);
 
@@ -92,6 +89,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();

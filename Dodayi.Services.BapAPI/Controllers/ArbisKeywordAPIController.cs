@@ -2,12 +2,15 @@
 using Dodayi.Services.BapAPI.Data;
 using Dodayi.Services.BapAPI.Dto;
 using Dodayi.Services.BapAPI.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Dodayi.Services.BapAPI.Controllers
 {
     [Route("api/arbiskeyword")]
     [ApiController]
+    [Authorize]
+
     public class ArbisKeywordAPIController : ControllerBase
     {
         //private readonly IArbisKeywordService _arbisKeywordService;

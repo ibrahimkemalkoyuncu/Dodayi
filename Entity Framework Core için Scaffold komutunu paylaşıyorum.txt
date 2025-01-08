@@ -15,3 +15,10 @@ Var olan modelleri güncellemek için komutu tekrar çalıştırdığınızda -F
 Modeller oluşturulduktan sonra Program.cs veya Startup.cs dosyanızda DbContext'i kaydetmeyi unutmayın:
 builder.Services.AddDbContext<AuthDBContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+	
+	
+
+{
+  "userName": "ibrahimkemalkoyuncu@gmail.com",
+  "password": "Ke*2141"
+}

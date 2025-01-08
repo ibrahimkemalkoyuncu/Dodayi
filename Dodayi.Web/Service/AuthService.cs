@@ -30,7 +30,7 @@ namespace Dodayi.Web.Service
                 Data = loginRequestDto,
                 Url = SD.AuthAPIBase + "/api/auth/login",
                 AccessToken = string.Empty
-            });
+            }, withBearer: false);
         }
 
         public async Task<ResponseDto?> RegisterAsync(RegistrationRequestDto registrationRequestDto)
@@ -41,7 +41,7 @@ namespace Dodayi.Web.Service
                 Data = registrationRequestDto,
                 Url = SD.AuthAPIBase + "/api/auth/register",
                 AccessToken = string.Empty
-            });
+            }, withBearer: false);
         }
     }
 }

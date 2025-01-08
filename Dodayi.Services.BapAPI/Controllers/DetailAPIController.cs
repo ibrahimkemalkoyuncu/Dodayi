@@ -2,12 +2,14 @@
 using Dodayi.Services.BapAPI.Data;
 using Dodayi.Services.BapAPI.Dto;
 using Dodayi.Services.BapAPI.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Dodayi.Services.BapAPI.Controllers
 {
     [Route("api/detail")]
     [ApiController]
+    [Authorize]
     public class DetailAPIController : ControllerBase
     {
         private readonly ModelContext db;

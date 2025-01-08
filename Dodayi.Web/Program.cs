@@ -19,6 +19,7 @@ SD.OrderAPIBase = builder.Configuration["ServiceUrls:OrderAPI"];
 SD.ShoppingCartAPIBase = builder.Configuration["ServiceUrls:ShoppingCartAPI"];
 SD.AuthAPIBase = builder.Configuration["ServiceUrls:AuthAPI"];
 SD.ProductAPIBase = builder.Configuration["ServiceUrls:ProductAPI"];
+SD.BapAPIBase = builder.Configuration["ServiceUrls:BapAPI"];
 builder.Services.AddScoped<ITokenProvider, TokenProvider>();
 builder.Services.AddScoped<IBaseService, BaseService>();
 //builder.Services.AddScoped<IOrderService, OrderService>();
@@ -26,6 +27,10 @@ builder.Services.AddScoped<IBaseService, BaseService>();
 //builder.Services.AddScoped<ICartService, CartService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ICouponService, CouponService>();
+builder.Services.AddScoped<IArbisKeywordService, ArbisKeywordService>();
+builder.Services.AddScoped<IDetailService, DetailService>();
+
+
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
