@@ -44,6 +44,7 @@ namespace Dodayi.Services.BapAPI.Controllers
 
 
         [HttpPost]
+        [Authorize(Roles = "ADMIN")]
         [Route("AddMakineTechizatDetail")]
         public Response AddMakineTechizatDetail([FromBody] DetailDto dto)
         {
@@ -64,6 +65,7 @@ namespace Dodayi.Services.BapAPI.Controllers
         }
 
         [HttpDelete]
+        [Authorize(Roles = "ADMIN")]
         [Route("DeleteMakineTechizat")]
         public Response DeleteMakineTechizat(int detailId, int tur)
         {

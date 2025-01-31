@@ -1,0 +1,6 @@
+@Dodayi.Services.ProductAPI_HostAddress = http://localhost:5073
+
+GET {{Dodayi.Services.ProductAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

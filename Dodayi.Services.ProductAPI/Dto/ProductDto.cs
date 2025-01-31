@@ -1,4 +1,4 @@
-﻿namespace Dodayi.Web.Models
+﻿namespace Dodayi.Services.ProductAPI.Dto
 {
     public class ProductDto
     {

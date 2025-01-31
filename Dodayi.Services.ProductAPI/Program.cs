@@ -1,7 +1,7 @@
 using AutoMapper;
-using Dodayi.Services.CouponAPI;
-using Dodayi.Services.CouponAPI.Data;
-using Dodayi.Services.CouponAPI.Extension;
+using Dodayi.Services.ProductAPI;
+using Dodayi.Services.ProductAPI.Data;
+using Dodayi.Services.ProductAPI.Extension;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -49,7 +49,7 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
-builder.AddAppAuthentication(); 
+builder.AddAppAuthentication();
 
 builder.Services.AddAuthorization();
 
@@ -80,6 +80,6 @@ void ApplyMigration()
     {
         var _db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-        if(_db.Database.GetPendingMigrations().Count() > 0) { _db.Database.Migrate(); }
+        if (_db.Database.GetPendingMigrations().Count() > 0) { _db.Database.Migrate(); }
     }
 }

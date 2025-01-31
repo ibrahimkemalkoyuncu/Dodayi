@@ -1,0 +1,150 @@
+﻿@model ProductDto
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm border-0 mt-4">
+                <div class="card-header bg-primary">
+                    <h2 class="text-white text-center mb-0">Delete Product</h2>
+                </div>
+                <div class="card-body">
+                    <form asp-action="ProductDelete" method="post">
+
+                        <input asp-for="ProductId" type="hidden" />
+
+                        <div class="mb-4">
+                            <label asp-for="Name" class="form-label fw-bold">Name</label>
+                            <input asp-for="Name" disabled class="form-control" />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-4">
+                            <label asp-for="CategoryName" class="form-label fw-bold">Category Name</label>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                <input asp-for="CategoryName" disabled class="form-control" />
+                            </div>
+                            <span asp-validation-for="CategoryName" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-4">
+                            <label asp-for="Description" class="form-label fw-bold">Description</label>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                <textarea asp-for="Description" disabled class="form-control" rows="5"></textarea>
+                            </div>
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-4">
+                            <label asp-for="ImageUrl" class="form-label fw-bold">ImageUrl</label>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                <input asp-for="ImageUrl" disabled class="form-control" />
+                            </div>
+                            <span asp-validation-for="ImageUrl" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-4">
+                            <label asp-for="Price" class="form-label fw-bold">Price</label>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                <input asp-for="Price" disabled class="form-control" />
+                            </div>
+                            <span asp-validation-for="Price" class="text-danger"></span>
+                        </div>
+
+                        <div class="row mt-4">
+                            <div class="col-md-6 mb-3">
+                                <a asp-action="ProductIndex" class="btn btn-outline-secondary w-100">
+                                    <i class="bi bi-arrow-left"></i> Back to List
+                                </a>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <button type="submit" value="Delete" class="btn btn-danger w-100">
+                                    <i class="bi bi-plus-circle"></i> Delete Product
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        $(document).ready(function () {
+            // Custom validation methods
+            $.validator.addMethod("positiveNumber", function (value, element) {
+                return this.optional(element) || parseFloat(value) > 0;
+            }, "Please enter a positive number");
+
+            // Validate the product creation form
+            $("form[asp-action='ProductCreate']").validate({
+                rules: {
+                    Name: {
+                        required: true,
+                        minlength: 2,
+                        maxlength: 100
+                    },
+                    CategoryName: {
+                        required: true,
+                        minlength: 2,
+                        maxlength: 50
+                    },
+                    Description: {
+                        required: true,
+                        minlength: 10,
+                        maxlength: 500
+                    },
+                    ImageUrl: {
+                        required: true,
+                        url: true
+                    },
+                    Price: {
+                        required: true,
+                        positiveNumber: true,
+                        number: true
+                    }
+                },
+                messages: {
+                    Name: {
+                        required: "Product name is required",
+                        minlength: "Product name must be at least 2 characters long",
+                        maxlength: "Product name cannot exceed 100 characters"
+                    },
+                    CategoryName: {
+                        required: "Category name is required",
+                        minlength: "Category name must be at least 2 characters long",
+                        maxlength: "Category name cannot exceed 50 characters"
+                    },
+                    Description: {
+                        required: "Description is required",
+                        minlength: "Description must be at least 10 characters long",
+                        maxlength: "Description cannot exceed 500 characters"
+                    },
+                    ImageUrl: {
+                        required: "Image URL is required",
+                        url: "Please enter a valid URL"
+                    },
+                    Price: {
+                        required: "Price is required",
+                        positiveNumber: "Price must be a positive number",
+                        number: "Please enter a valid number"
+                    }
+                },
+                errorClass: "text-danger",
+                errorElement: "span",
+                highlight: function(element) {
+                    $(element).addClass("is-invalid");
+                },
+                unhighlight: function(element) {
+                    $(element).removeClass("is-invalid");
+                }
+            });
+        });
+    </script>
+}

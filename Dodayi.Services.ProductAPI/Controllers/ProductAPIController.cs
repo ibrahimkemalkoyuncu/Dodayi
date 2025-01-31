@@ -1,22 +1,21 @@
 ﻿using AutoMapper;
-using Dodayi.Services.CouponAPI.Data;
-using Dodayi.Services.CouponAPI.Dto;
-using Dodayi.Services.CouponAPI.Models;
+using Dodayi.Services.ProductAPI.Data;
+using Dodayi.Services.ProductAPI.Dto;
+using Dodayi.Services.ProductAPI.Models;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Dodayi.Services.CouponAPI.Controllers
+namespace Dodayi.Services.ProductAPI.Controllers
 {
-    [Route("api/coupon")]
+    [Route("api/product")]
     [ApiController]
-    [Authorize]
-    public class CouponAPIController : ControllerBase
+    //[Authorize]
+    public class ProductAPIController : ControllerBase
     {
         private readonly AppDbContext db;
         private Response response;
         private IMapper mapper;
-        public CouponAPIController(AppDbContext _db, IMapper _mapper)
+        public ProductAPIController(AppDbContext _db, IMapper _mapper)
         {
             db = _db;
             response = new Response();
@@ -29,8 +28,8 @@ namespace Dodayi.Services.CouponAPI.Controllers
         {
             try
             {
-                IEnumerable<Coupon> objList = db.Coupons.ToList();
-                response.Result = mapper.Map<IEnumerable<CouponDto>>(objList);
+                IEnumerable<Product> objList = db.Products.ToList();
+                response.Result = mapper.Map<IEnumerable<ProductDto>>(objList);
             }
             catch (Exception ex)
             {
@@ -48,26 +47,8 @@ namespace Dodayi.Services.CouponAPI.Controllers
         {
             try
             {
-                Coupon obj = db.Coupons.First(u => u.CouponId == id);      
-                response.Result = mapper.Map<CouponDto>(obj);
-            }
-            catch (Exception ex)
-            {
-                response.IsSuccess = false;
-                response.Message = ex.Message;
-            }
-
-            return response;
-        }
-
-        [HttpGet]
-        [Route("GetByCode/{code}")]
-        public Response GetByCode(string code)
-        {
-            try
-            {
-                Coupon obj = db.Coupons.First(u => u.CouponCode.ToLower() == code.ToLower());
-                response.Result = mapper.Map<CouponDto>(obj);
+                Product obj = db.Products.First(u => u.ProductId == id);      
+                response.Result = mapper.Map<ProductDto>(obj);
             }
             catch (Exception ex)
             {
@@ -79,16 +60,16 @@ namespace Dodayi.Services.CouponAPI.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "ADMIN")]
-        public Response Post([FromBody] CouponDto dto)
+        //[Authorize(Roles = "ADMIN")]
+        public Response Post([FromBody] ProductDto dto)
         {
             try
             {
-                Coupon obj = mapper.Map<Coupon>(dto);
-                db.Coupons.Add(obj);
+                Product obj = mapper.Map<Product>(dto);
+                db.Products.Add(obj);
                 db.SaveChanges();
 
-                response.Result = mapper.Map<CouponDto>(obj);
+                response.Result = mapper.Map<ProductDto>(obj);
             }
             catch (Exception ex)
             {
@@ -100,16 +81,16 @@ namespace Dodayi.Services.CouponAPI.Controllers
         }
 
         [HttpPut]
-        [Authorize(Roles = "ADMIN")]
-        public Response Put([FromBody] CouponDto dto)
+        //[Authorize(Roles = "ADMIN")]
+        public Response Put([FromBody] ProductDto dto)
         {
             try
             {
-                Coupon obj = mapper.Map<Coupon>(dto);
-                db.Coupons.Update(obj);
+                Product obj = mapper.Map<Product>(dto);
+                db.Products.Update(obj);
                 db.SaveChanges();
 
-                response.Result = mapper.Map<CouponDto>(obj);
+                response.Result = mapper.Map<ProductDto>(obj);
             }
             catch (Exception ex)
             {
@@ -122,13 +103,13 @@ namespace Dodayi.Services.CouponAPI.Controllers
 
         [HttpDelete]
         [Route("{id:int}")]
-        [Authorize(Roles = "ADMIN")]
+        //[Authorize(Roles = "ADMIN")]
         public Response Delete(int id)
         {
             try
             {
-                Coupon obj = db.Coupons.First(u => u.CouponId == id);
-                db.Coupons.Remove(obj);
+                Product obj = db.Products.First(u => u.ProductId == id);
+                db.Products.Remove(obj);
                 db.SaveChanges();
             }
             catch (Exception ex)
