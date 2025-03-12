@@ -1,86 +1,129 @@
 ﻿@model IEnumerable<CouponDto>
 
-<div class="container-fluid px-4">
-    <div class="card shadow border-0 mt-4">
-        <div class="card-header bg-primary bg-gradient py-3">
-            <div class="row align-items-center">
-                <div class="col-12 text-center">
-                    <h2 class="text-white mb-0">Coupons Management</h2>
-                </div>
-            </div>
+<!-- Sayfa Başlığı -->
+<div class="container py-4 fade-in">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="mb-1">Kuponlar</h1>
+            <p class="text-muted">Alışverişlerinizde kullanabileceğiniz indirim kuponları</p>
         </div>
-
-        <div class="card-body p-4">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <div class="d-flex align-items-center">
-                    <span class="badge bg-primary rounded-pill">@Model.Count()</span>
-                    <span class="ms-2 text-muted">Active Coupons</span>
-                </div>
-                <div>
-                    <a asp-action="CouponCreate" class="btn btn-primary">
-                        <i class="bi bi-plus-circle me-2"></i>Create New Coupon
-                    </a>
-                </div>
-            </div>
-
-            <div class="table-responsive">
-                <table class="table table-hover align-middle">
-                    <thead class="table-light">
-                        <tr>
-                            <th scope="col">Coupon Code</th>
-                            <th scope="col">Discount Amount</th>
-                            <th scope="col">Minimum Amount</th>
-                            <th scope="col" class="text-center">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in Model)
-                        {
-                            <tr>
-                                <td>
-                                    <span class="fw-bold">@item.CouponCode</span>
-                                </td>
-                                <td>
-                                    <span class="text-success fw-bold">@item.DiscountAmount.ToString("C")</span>
-                                </td>
-                                <td>
-                                    <span class="text-muted">@item.MinAmount.ToString("C")</span>
-                                </td>
-                                <td class="text-center">
-                                    <div class="btn-group" role="group">
-                                        <a asp-action="CouponDelete"
-                                           asp-route-couponId="@item.CouponId"
-                                           class="btn btn-outline-danger btn-sm"
-                                           data-bs-toggle="tooltip"
-                                           data-bs-placement="top"
-                                           title="Delete Coupon">
-                                            <i class="bi bi-trash"></i>
-                                        </a>
-                                    </div>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
-
-            @if (!Model.Any())
+        
+        @if (User.IsInRole("ADMIN"))
+        {
+            <a asp-action="CouponCreate" class="btn btn-primary">
+                <i class="fas fa-plus me-2"></i>Yeni Kupon Ekle
+            </a>
+        }
+    </div>
+    
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info">
+            <i class="fas fa-info-circle me-2"></i>Henüz kupon bulunmamaktadır.
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            @foreach (var coupon in Model)
             {
-                <div class="text-center py-4">
-                    <i class="bi bi-ticket-perforated text-muted" style="font-size: 3rem;"></i>
-                    <p class="text-muted mt-2">No coupons found. Create your first coupon to get started.</p>
+                <div class="col-12 col-md-6 col-lg-4 mb-4">
+                    <div class="coupon-card">
+                        <h5 class="mb-0">@coupon.CouponCode</h5>
+                        <div class="coupon-code mt-2">@coupon.CouponCode</div>
+                        <div class="coupon-amount">@coupon.DiscountAmount.ToString("c") İndirim</div>
+                        <div class="coupon-min-amount">Minimum Alışveriş: @coupon.MinAmount.ToString("c")</div>
+                        
+                        @if (User.IsInRole("ADMIN"))
+                        {
+                            <div class="coupon-actions">
+                                <a asp-action="CouponDelete" asp-route-couponId="@coupon.CouponId" class="btn btn-sm btn-outline-light">
+                                    <i class="fas fa-trash-alt me-1"></i>Sil
+                                </a>
+                            </div>
+                        }
+                    </div>
                 </div>
             }
+        </div>
+    }
+</div>
+
+<!-- Nasıl Kullanılır Bölümü -->
+<div class="container mb-5">
+    <div class="card bg-light border-0">
+        <div class="card-body">
+            <h3 class="mb-3"><i class="fas fa-info-circle me-2 text-primary-custom"></i>Kupon Nasıl Kullanılır?</h3>
+            <div class="row">
+                <div class="col-md-4 mb-3 mb-md-0">
+                    <div class="d-flex">
+                        <div class="me-3">
+                            <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">1</div>
+                        </div>
+                        <div>
+                            <h5>Kuponu Kopyalayın</h5>
+                            <p class="text-muted mb-0">İstediğiniz kuponu seçin ve kodunu kopyalayın.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3 mb-md-0">
+                    <div class="d-flex">
+                        <div class="me-3">
+                            <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">2</div>
+                        </div>
+                        <div>
+                            <h5>Sepete Ürün Ekleyin</h5>
+                            <p class="text-muted mb-0">Ürünleri sepetinize ekleyin (minimum tutara dikkat edin).</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="d-flex">
+                        <div class="me-3">
+                            <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">3</div>
+                        </div>
+                        <div>
+                            <h5>Kuponu Uygulayın</h5>
+                            <p class="text-muted mb-0">Ödeme adımında kupon kodunu ilgili alana girin.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
+<!-- Yardımcı JavaScript -->
 @section Scripts {
     <script>
-        // Initialize tooltips
-        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-            return new bootstrap.Tooltip(tooltipTriggerEl)
+        // Kupon kodlarını tıklandığında otomatik kopyalama
+        document.addEventListener('DOMContentLoaded', function() {
+            const couponCodes = document.querySelectorAll('.coupon-code');
+            
+            couponCodes.forEach(code => {
+                code.addEventListener('click', async function() {
+                    const text = this.textContent;
+                    try {
+                        await navigator.clipboard.writeText(text);
+                        
+                        // Kopyalandı bildirimi
+                        const originalText = this.textContent;
+                        this.textContent = "Kopyalandı!";
+                        this.style.backgroundColor = "rgba(255, 255, 255, 0.4)";
+                        
+                        setTimeout(() => {
+                            this.textContent = originalText;
+                            this.style.backgroundColor = "rgba(255, 255, 255, 0.2)";
+                        }, 1500);
+                    } catch (err) {
+                        console.error('Kopyalama başarısız: ', err);
+                    }
+                });
+                
+                // Hover stilini değiştir
+                code.style.cursor = 'pointer';
+                code.title = 'Kopyalamak için tıklayın';
+            });
         });
     </script>
 }

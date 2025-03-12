@@ -1,0 +1,49 @@
+@using Dodayi.Web.Utility
+
+@if (!User.Identity.IsAuthenticated)
+{
+    <!-- Giriş yapmamış kullanıcı için -->
+    <a asp-controller="Auth" asp-action="Login" class="btn btn-outline-light me-2">
+        <i class="fas fa-sign-in-alt me-1"></i> Giriş
+    </a>
+    <a asp-controller="Auth" asp-action="Register" class="btn btn-light">
+        <i class="fas fa-user-plus me-1"></i> Kayıt Ol
+    </a>
+}
+else
+{
+    <!-- Giriş yapmış kullanıcı için -->
+    <div class="dropdown">
+        <a class="btn btn-outline-light dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fas fa-user-circle me-1"></i> Merhaba, @User.Identity.Name
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end">
+            <li><h6 class="dropdown-header">Hesabım</h6></li>
+            <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i>Profilim</a></li>
+            <li><a class="dropdown-item" href="#"><i class="fas fa-box me-2"></i>Siparişlerim</a></li>
+            
+            @if (User.IsInRole(SD.RoleAdmin))
+            {
+                <li><hr class="dropdown-divider"></li>
+                <li><h6 class="dropdown-header">Yönetim</h6></li>
+                <li><a class="dropdown-item" asp-controller="Coupon" asp-action="CouponIndex"><i class="fas fa-tag me-2"></i>Kuponlar</a></li>
+                <li><a class="dropdown-item" asp-controller="Product" asp-action="ProductIndex"><i class="fas fa-box-open me-2"></i>Ürünler</a></li>
+                <li><a class="dropdown-item" asp-controller="ArbisKeyword" asp-action="ArbisKeywordFilterByParentIdGoToIndex"><i class="fas fa-key me-2"></i>Anahtar Kelimeler</a></li>
+                <li><a class="dropdown-item" asp-controller="Detail" asp-action="DetailIndex"><i class="fas fa-list me-2"></i>Detaylar</a></li>
+                <li><a class="dropdown-item" asp-controller="Detail" asp-action="ProjeyeIdveTureGoreDetailGetir"><i class="fas fa-search me-2"></i>Detay Getir</a></li>
+            }
+            
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item text-danger" asp-controller="Auth" asp-action="Logout"><i class="fas fa-sign-out-alt me-2"></i>Çıkış</a></li>
+        </ul>
+    </div>
+    
+    <!-- Sepet -->
+    <a asp-controller="Cart" asp-action="CartIndex" class="btn btn-light ms-2 position-relative">
+        <i class="fas fa-shopping-cart"></i>
+        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+            0
+            <span class="visually-hidden">ürün</span>
+        </span>
+    </a>
+} 

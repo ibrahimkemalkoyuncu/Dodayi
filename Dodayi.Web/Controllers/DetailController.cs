@@ -61,12 +61,12 @@ namespace Dodayi.Web.Controllers
             return View(pagedList);
         }
 
-        [HttpGet]
-        public async Task<IActionResult> AddMakineTechizatDetail()
-        {
+        //[HttpGet]
+        //public async Task<IActionResult> AddMakineTechizatDetail()
+        //{
 
-            return View();
-        }
+        //    return View();
+        //}
 
         [HttpPost]
         public async Task<IActionResult> AddMakineTechizatDetail(DetailDto model)

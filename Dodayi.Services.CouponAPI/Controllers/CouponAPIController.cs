@@ -8,6 +8,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Dodayi.Services.CouponAPI.Controllers
 {
+    /// <summary>
+    /// Kupon yönetimi için API controller sınıfı.
+    /// Kupon ekleme, silme, güncelleme ve listeleme işlemlerini gerçekleştirir.
+    /// </summary>
     [Route("api/coupon")]
     [ApiController]
     [Authorize]
@@ -16,6 +20,12 @@ namespace Dodayi.Services.CouponAPI.Controllers
         private readonly AppDbContext db;
         private Response response;
         private IMapper mapper;
+
+        /// <summary>
+        /// CouponAPIController constructor metodu
+        /// </summary>
+        /// <param name="_db">Veritabanı bağlantı nesnesi</param>
+        /// <param name="_mapper">AutoMapper nesnesi</param>
         public CouponAPIController(AppDbContext _db, IMapper _mapper)
         {
             db = _db;
@@ -23,7 +33,10 @@ namespace Dodayi.Services.CouponAPI.Controllers
             mapper = _mapper;
         }
 
-
+        /// <summary>
+        /// Tüm kuponları listeler
+        /// </summary>
+        /// <returns>Kupon listesi içeren Response nesnesi</returns>
         [HttpGet]
         public Response Get()
         {
@@ -41,7 +54,11 @@ namespace Dodayi.Services.CouponAPI.Controllers
             return response;
         }
 
-
+        /// <summary>
+        /// Belirtilen ID'ye sahip kuponu getirir
+        /// </summary>
+        /// <param name="id">Kupon ID</param>
+        /// <returns>Kupon bilgisi içeren Response nesnesi</returns>
         [HttpGet]
         [Route("{id:int}")]
         public Response Get(int id)
@@ -60,6 +77,11 @@ namespace Dodayi.Services.CouponAPI.Controllers
             return response;
         }
 
+        /// <summary>
+        /// Kupon koduna göre kupon bilgisini getirir
+        /// </summary>
+        /// <param name="code">Kupon kodu</param>
+        /// <returns>Kupon bilgisi içeren Response nesnesi</returns>
         [HttpGet]
         [Route("GetByCode/{code}")]
         public Response GetByCode(string code)
@@ -78,6 +100,11 @@ namespace Dodayi.Services.CouponAPI.Controllers
             return response;
         }
 
+        /// <summary>
+        /// Yeni kupon ekler. Sadece ADMIN rolüne sahip kullanıcılar kullanabilir.
+        /// </summary>
+        /// <param name="dto">Eklenecek kupon bilgisi</param>
+        /// <returns>İşlem sonucunu içeren Response nesnesi</returns>
         [HttpPost]
         [Authorize(Roles = "ADMIN")]
         public Response Post([FromBody] CouponDto dto)
@@ -99,6 +126,11 @@ namespace Dodayi.Services.CouponAPI.Controllers
             return response;
         }
 
+        /// <summary>
+        /// Mevcut kuponu günceller. Sadece ADMIN rolüne sahip kullanıcılar kullanabilir.
+        /// </summary>
+        /// <param name="dto">Güncellenecek kupon bilgisi</param>
+        /// <returns>İşlem sonucunu içeren Response nesnesi</returns>
         [HttpPut]
         [Authorize(Roles = "ADMIN")]
         public Response Put([FromBody] CouponDto dto)
@@ -120,6 +152,11 @@ namespace Dodayi.Services.CouponAPI.Controllers
             return response;
         }
 
+        /// <summary>
+        /// Belirtilen ID'ye sahip kuponu siler. Sadece ADMIN rolüne sahip kullanıcılar kullanabilir.
+        /// </summary>
+        /// <param name="id">Silinecek kupon ID'si</param>
+        /// <returns>İşlem sonucunu içeren Response nesnesi</returns>
         [HttpDelete]
         [Route("{id:int}")]
         [Authorize(Roles = "ADMIN")]

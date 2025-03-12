@@ -1,106 +1,343 @@
 ﻿﻿@using Dodayi.Web.Utility
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Mango.Web</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
-    <link rel="stylesheet" href="//cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
+    <meta name="description" content="Dodayi - Modern e-ticaret deneyimi" />
+    <meta name="author" content="Dodayi" />
+    <title>@ViewData["Title"] - Dodayi</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="~/favicon.png">
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    
+    <!-- Google Fonts - Roboto ve Open Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    
+    <!-- Ana CSS -->
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.css" />
-    <link rel="stylesheet" href="~/Mango.Web.styles.css" asp-append-version="true" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.4/font/bootstrap-icons.css">
+    
+    <!-- Sayfaya özel stil dosyaları için render section -->
+    @await RenderSectionAsync("Styles", required: false)
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark  box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Dodayi</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
+    <!-- Top Bar (Üst Bilgi Çubuğu) -->
+    <div class="top-bar py-1 bg-dark text-white d-none d-md-block">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <ul class="list-inline mb-0 small">
+                        <li class="list-inline-item me-3"><i class="fas fa-phone-alt me-1"></i> (0212) 123 45 67</li>
+                        <li class="list-inline-item"><i class="fas fa-envelope me-1"></i> info@dodayi.com</li>
+                    </ul>
+                </div>
+                <div class="col-md-6 text-end">
+                    <ul class="list-inline mb-0 small">
+                        <li class="list-inline-item me-3"><a href="#" class="text-white text-decoration-none"><i class="fas fa-truck me-1"></i> Sipariş Takip</a></li>
+                        <li class="list-inline-item me-3"><a href="#" class="text-white text-decoration-none"><i class="fas fa-map-marker-alt me-1"></i> Mağazalarımız</a></li>
+                        <li class="list-inline-item"><a href="#" class="text-white text-decoration-none"><i class="fas fa-headset me-1"></i> Yardım</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Üst Menü (Navbar) -->
+    <header id="header" class="sticky-top">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+            <div class="container">
+                <a class="navbar-brand d-flex align-items-center" href="/">
+                    <i class="fas fa-box-open me-2"></i>
+                    <span class="fw-bold">Dodayi</span>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav me-auto">
                         <li class="nav-item">
-                            <a class="nav-link " asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link" asp-controller="Home" asp-action="Index">
+                                <i class="fas fa-home me-1 d-none d-lg-inline-block"></i>Ana Sayfa
+                            </a>
                         </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-tags me-1 d-none d-lg-inline-block"></i>Ürünler
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-animate">
+                                <li><a class="dropdown-item" asp-controller="Product" asp-action="Index">Tüm Ürünler</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><h6 class="dropdown-header">Kategoriler</h6></li>
+                                <li><a class="dropdown-item" href="#">Elektronik</a></li>
+                                <li><a class="dropdown-item" href="#">Moda</a></li>
+                                <li><a class="dropdown-item" href="#">Ev & Yaşam</a></li>
+                                <li><a class="dropdown-item" href="#">Spor & Outdoor</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="#">Yeni Gelenler</a></li>
+                                <li><a class="dropdown-item" href="#">Çok Satanlar</a></li>
+                            </ul>
                         </li>
-
-
-
-
-                        @if (User.IsInRole(SD.RoleAdmin))
-                        {
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Content Management
-                                </a>
-                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <li><a class="dropdown-item" asp-controller="Coupon" asp-action="CouponIndex">Coupon</a></li>
-                                    <li><a class="dropdown-item" asp-controller="Product" asp-action="ProductIndex">Product</a></li>
-                                    <li><a class="dropdown-item" asp-controller="ArbisKeyword" asp-action="ArbisKeywordFilterByParentIdGoToIndex">Arbis Keyword</a></li>
-                                    <li><a class="dropdown-item" asp-controller="Detail" asp-action="DetailIndex">Detail</a></li>
-                                    <li><a class="dropdown-item" asp-controller="Detail" asp-action="ProjeyeIdveTureGoreDetailGetir">Detail Getir</a></li>
-                                    <li><hr class="dropdown-divider"></li>
-                                </ul>
-                            </li>
-                        }
                         <li class="nav-item">
-                            <a class="nav-link " asp-area="" asp-controller="Order" asp-action="OrderIndex">
-                                Manage Order
+                            <a class="nav-link" asp-controller="Coupon" asp-action="CouponIndex">
+                                <i class="fas fa-ticket-alt me-1 d-none d-lg-inline-block"></i>Kuponlar
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link " asp-area="" asp-controller="Cart" asp-action="CartIndex">
-                                &nbsp; <i class="bi bi-cart"></i>&nbsp;
+                            <a class="nav-link" href="#">
+                                <i class="fas fa-info-circle me-1 d-none d-lg-inline-block"></i>Hakkımızda
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Home" asp-action="Privacy">
+                                <i class="fas fa-shield-alt me-1 d-none d-lg-inline-block"></i>Gizlilik
                             </a>
                         </li>
                     </ul>
-                    <ul class="navbar-nav">
-                        @if (!User.Identity.IsAuthenticated)
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link " asp-controller="Auth" asp-action="Login">Login</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link " asp-controller="Auth" asp-action="Register">Register</a>
-                            </li>
-                        }
-                        else
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link " href="#">Hello @User.Identity.Name</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link " asp-controller="Auth" asp-action="Logout">Logout</a>
-                            </li>
-                        }
-                    </ul>
+                    
+                    <!-- Arama Formu -->
+                    <form class="d-flex mx-auto my-2" role="search">
+                        <div class="input-group">
+                            <input class="form-control" type="search" placeholder="Ürün, kategori veya marka ara..." aria-label="Search">
+                            <button class="btn btn-light" type="submit"><i class="fas fa-search"></i></button>
+                        </div>
+                    </form>
+                    
+                    <!-- Kullanıcı Menüsü ve Sepet -->
+                    <div class="d-flex align-items-center ms-auto">
+                        <!-- Sepet Butonu -->
+                        <div class="dropdown me-3">
+                            <a href="#" class="btn btn-outline-light position-relative" data-bs-toggle="dropdown">
+                                <i class="fas fa-shopping-cart"></i>
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                    3
+                                    <span class="visually-hidden">Sepetteki ürün sayısı</span>
+                                </span>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-end dropdown-menu-cart p-3 shadow-lg" style="width: 320px;">
+                                <h6 class="mb-3">Sepetim (3 Ürün)</h6>
+                                
+                                <!-- Sepet Öğeleri -->
+                                <div class="mini-cart-items">
+                                    <div class="mini-cart-item d-flex mb-3">
+                                        <img src="https://via.placeholder.com/50x50" class="me-2" alt="">
+                                        <div class="flex-grow-1">
+                                            <h6 class="mb-0 small">Ürün 1</h6>
+                                            <p class="text-muted small mb-1">1 x 149,90 ₺</p>
+                                            <a href="#" class="text-danger small"><i class="fas fa-trash"></i> Sil</a>
+                                        </div>
+                                    </div>
+                                    <div class="mini-cart-item d-flex mb-3">
+                                        <img src="https://via.placeholder.com/50x50" class="me-2" alt="">
+                                        <div class="flex-grow-1">
+                                            <h6 class="mb-0 small">Ürün 2</h6>
+                                            <p class="text-muted small mb-1">2 x 89,90 ₺</p>
+                                            <a href="#" class="text-danger small"><i class="fas fa-trash"></i> Sil</a>
+                                        </div>
+                                    </div>
+                                    <div class="mini-cart-item d-flex mb-3">
+                                        <img src="https://via.placeholder.com/50x50" class="me-2" alt="">
+                                        <div class="flex-grow-1">
+                                            <h6 class="mb-0 small">Ürün 3</h6>
+                                            <p class="text-muted small mb-1">1 x 199,90 ₺</p>
+                                            <a href="#" class="text-danger small"><i class="fas fa-trash"></i> Sil</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <hr>
+                                
+                                <!-- Sepet Toplamı -->
+                                <div class="d-flex justify-content-between mb-3">
+                                    <span>Toplam:</span>
+                                    <span class="fw-bold">529,60 ₺</span>
+                                </div>
+                                
+                                <!-- Sepet Butonları -->
+                                <div class="d-grid gap-2">
+                                    <a href="#" class="btn btn-primary">Sepete Git</a>
+                                    <a href="#" class="btn btn-success">Siparişi Tamamla</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- İstek Listesi -->
+                        <a href="#" class="btn btn-outline-light me-3 position-relative d-none d-lg-inline-block">
+                            <i class="fas fa-heart"></i>
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                2
+                                <span class="visually-hidden">İstek listesi sayısı</span>
+                            </span>
+                        </a>
+                        
+                        <!-- Kullanıcı Menüsü -->
+                        <partial name="_LoginPartial" />
+                    </div>
                 </div>
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-            <partial name="_Notifications" />
-        </main>
+    
+    <!-- Bildirimler -->
+    <div id="notification-container" class="toast-container position-fixed top-0 end-0 p-3">
+        <partial name="_Notifications" />
     </div>
-
-    <footer class="footer text-muted">
-        <div class="text-center">
-            Made with <i class="bi bi-heart-fill "></i> by DotNetMastery
+    
+    <!-- Ana İçerik -->
+    <main class="py-4">
+        @RenderBody()
+    </main>
+    
+    <!-- Haber Bülteni Kaydı -->
+    <section class="newsletter py-5 bg-light">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 text-center">
+                    <h2 class="mb-3">Haber Bültenimize Kaydolun</h2>
+                    <p class="text-muted mb-4">En yeni ürünler, kampanyalar ve indirimlerden haberdar olmak için haber bültenimize kaydolun.</p>
+                    <div class="input-group mb-3 newsletter-input">
+                        <input type="email" class="form-control" placeholder="E-posta adresinizi girin">
+                        <button class="btn btn-primary" type="button">Kaydol</button>
+                    </div>
+                    <p class="small text-muted mt-2">Kaydolarak <a href="#">Gizlilik Politikamızı</a> kabul etmiş olursunuz.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Alt Bilgi (Footer) -->
+    <footer class="footer py-5 bg-dark text-white">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-md-4 mb-4 mb-md-0">
+                    <h5 class="mb-3 text-light">Dodayi</h5>
+                    <p class="text-muted">Modern mikroservis mimarisi ile geliştirilmiş kapsamlı e-ticaret ve yönetim platformu.</p>
+                    <div class="d-flex gap-3 mt-3 social-icons">
+                        <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="col-6 col-md-2 mb-3">
+                    <h6 class="mb-3 text-light">Hızlı Bağlantılar</h6>
+                    <ul class="nav flex-column">
+                        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted footer-link">Ana Sayfa</a></li>
+                        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted footer-link">Ürünler</a></li>
+                        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted footer-link">Kuponlar</a></li>
+                        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted footer-link">Çok Satanlar</a></li>
+                        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted footer-link">Blog</a></li>
+                        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted footer-link">Hakkımızda</a></li>
+                    </ul>
+                </div>
+                <div class="col-6 col-md-2 mb-3">
+                    <h6 class="mb-3 text-light">Hesabım</h6>
+                    <ul class="nav flex-column">
+                        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted footer-link">Profilim</a></li>
+                        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted footer-link">Siparişlerim</a></li>
+                        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted footer-link">İstek Listem</a></li>
+                        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted footer-link">Adreslerim</a></li>
+                        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted footer-link">Kuponlarım</a></li>
+                        <li class="nav-item mb-2"><a href="#" class="nav-link p-0 text-muted footer-link">Ayarlar</a></li>
+                    </ul>
+                </div>
+                <div class="col-12 col-md-4">
+                    <h6 class="mb-3 text-light">İletişim</h6>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><i class="fas fa-map-marker-alt me-2 text-primary-custom"></i> Atatürk Cad. No:123, İstanbul</li>
+                        <li class="mb-2"><i class="fas fa-phone-alt me-2 text-primary-custom"></i> (0212) 123 45 67</li>
+                        <li class="mb-2"><i class="fas fa-envelope me-2 text-primary-custom"></i> info@dodayi.com</li>
+                        <li class="mb-2"><i class="fas fa-clock me-2 text-primary-custom"></i> Pazartesi - Cuma: 09:00 - 18:00</li>
+                    </ul>
+                    
+                    <div class="mt-4">
+                        <h6 class="mb-3 text-light">Ödeme Yöntemleri</h6>
+                        <div class="d-flex gap-2">
+                            <i class="fab fa-cc-visa fa-2x text-muted"></i>
+                            <i class="fab fa-cc-mastercard fa-2x text-muted"></i>
+                            <i class="fab fa-cc-paypal fa-2x text-muted"></i>
+                            <i class="fab fa-cc-amex fa-2x text-muted"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="d-flex flex-column flex-sm-row justify-content-between py-4 mt-4 border-top border-secondary">
+                <p class="mb-0">&copy; @DateTime.Now.Year Dodayi. Tüm hakları saklıdır.</p>
+                <ul class="list-inline mb-0">
+                    <li class="list-inline-item"><a href="#" class="link-light text-decoration-none">Gizlilik Politikası</a></li>
+                    <li class="list-inline-item"><a href="#" class="link-light text-decoration-none">Kullanım Şartları</a></li>
+                    <li class="list-inline-item"><a href="#" class="link-light text-decoration-none">Çerez Politikası</a></li>
+                    <li class="list-inline-item"><a href="#" class="link-light text-decoration-none">Yardım</a></li>
+                </ul>
+            </div>
+            
+            <!-- Back to Top Button -->
+            <div class="back-to-top-container">
+                <a href="#" id="back-to-top-btn" class="back-to-top">
+                    <i class="fas fa-arrow-up"></i>
+                </a>
+            </div>
         </div>
     </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="//cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    
+    <!-- jQuery (gerekirse) -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    
+    <!-- Ana JavaScript -->
     <script src="~/js/site.js" asp-append-version="true"></script>
+    
+    <!-- İşlevsel JavaScript -->
+    <script>
+        // Kayan header (Scroll Header)
+        document.addEventListener('DOMContentLoaded', function() {
+            window.addEventListener('scroll', function() {
+                const header = document.getElementById('header');
+                if (window.scrollY > 100) {
+                    header.classList.add('navbar-shrink');
+                } else {
+                    header.classList.remove('navbar-shrink');
+                }
+            });
+            
+            // Back to top butonu
+            const backToTopBtn = document.getElementById('back-to-top-btn');
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 300) {
+                    backToTopBtn.classList.add('show');
+                } else {
+                    backToTopBtn.classList.remove('show');
+                }
+            });
+            
+            backToTopBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                window.scrollTo({top: 0, behavior: 'smooth'});
+            });
+            
+            // Dropdown menü animasyonu
+            const dropdownMenus = document.querySelectorAll('.dropdown-menu');
+            dropdownMenus.forEach(menu => {
+                menu.classList.add('dropdown-menu-end');
+            });
+        });
+    </script>
+    
+    <!-- Sayfaya özel script dosyaları için render section -->
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

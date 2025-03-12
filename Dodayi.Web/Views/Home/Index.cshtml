@@ -1,30 +1,145 @@
 ﻿@model IEnumerable<ProductDto>
 
-<form>
-    <div class="container row">
-        @foreach (var product in Model)
+<!-- Hero Banner Section -->
+<section class="bg-primary-gradient text-white mb-5 py-5 rounded-3 fade-in">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-6 mb-4 mb-md-0">
+                <h1 class="display-4 fw-bold mb-3">Kaliteli Ürünler, Uygun Fiyatlar</h1>
+                <p class="lead mb-4">Mikroservis mimarisi üzerine kurulu modern e-ticaret deneyimi ile tanışın.</p>
+                <a href="#products" class="btn btn-light btn-lg px-4 me-2">
+                    <i class="fas fa-shopping-bag me-2"></i>Alışverişe Başla
+                </a>
+                <a href="#" class="btn btn-outline-light btn-lg px-4">
+                    <i class="fas fa-info-circle me-2"></i>Daha Fazla
+                </a>
+            </div>
+            <div class="col-md-6 text-center">
+                <img src="https://via.placeholder.com/600x400?text=Dodayi" class="img-fluid rounded-3" alt="Dodayi Banner">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="mb-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 text-center py-4">
+                    <div class="card-body">
+                        <i class="fas fa-truck fa-3x text-primary-custom mb-3"></i>
+                        <h3>Hızlı Teslimat</h3>
+                        <p class="text-muted">Siparişleriniz en hızlı şekilde kapınızda.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 text-center py-4">
+                    <div class="card-body">
+                        <i class="fas fa-shield-alt fa-3x text-primary-custom mb-3"></i>
+                        <h3>Güvenli Ödeme</h3>
+                        <p class="text-muted">Ödemeleriniz %100 güvende.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 text-center py-4">
+                    <div class="card-body">
+                        <i class="fas fa-headset fa-3x text-primary-custom mb-3"></i>
+                        <h3>7/24 Destek</h3>
+                        <p class="text-muted">Sorularınız için her zaman buradayız.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Products Section -->
+<section id="products" class="mb-5">
+    <div class="container">
+        <div class="d-flex align-items-center justify-content-between mb-4">
+            <h2 class="mb-0">Ürünlerimiz</h2>
+            <div class="dropdown">
+                <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fas fa-sort me-1"></i>Sırala
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li><a class="dropdown-item" href="#">Fiyata Göre: Artan</a></li>
+                    <li><a class="dropdown-item" href="#">Fiyata Göre: Azalan</a></li>
+                    <li><a class="dropdown-item" href="#">İsme Göre: A-Z</a></li>
+                    <li><a class="dropdown-item" href="#">İsme Göre: Z-A</a></li>
+                </ul>
+            </div>
+        </div>
+
+        @if (Model == null || !Model.Any())
         {
-            <div class="col-12 col-md-6 col-lg-4">
-                <div class="p-0 my-3 border rounded">
-                    <div class="card">
-                        <h3 class="card-title text-white-50 text-center py-2">@product.Name</h3>
-                        <img src="@product.ImageUrl" class="card-img-top">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between py-2">
-                                <span class="text-danger" style="font-size:20px;">@string.Format("{0:c}", product.Price)</span>
-                                <span class="badge bg-warning text-white p-2">@product.CategoryName</span>
-                            </div>
-                            <p class="card-text">@Html.Raw(product.Description)</p>
-                            <div class="row">
-                                <div class="col">
-                                    <a asp-action="ProductDetails" asp-route-productId="@product.ProductId"
-                                       class="btn btn-success form-control">Details</a>
+            <div class="alert alert-info">
+                <i class="fas fa-info-circle me-2"></i>Henüz ürün eklenmemiş.
+            </div>
+        }
+        else
+        {
+            <div class="row">
+                @foreach (var product in Model)
+                {
+                    <div class="col-md-4 col-lg-3 mb-4">
+                        <div class="card product-card h-100">
+                            @if (product.ImageUrl != null)
+                            {
+                                <img src="@product.ImageUrl" class="card-img-top" alt="@product.Name">
+                            }
+                            else
+                            {
+                                <img src="https://via.placeholder.com/300x200?text=Ürün+Görseli" class="card-img-top" alt="@product.Name">
+                            }
+                            
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="product-title">@product.Name</h5>
+                                <p class="text-muted small mb-2">@product.CategoryName</p>
+                                <p class="mb-3 flex-grow-1">@(product.Description?.Length > 80 ? product.Description.Substring(0, 80) + "..." : product.Description)</p>
+                                
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="product-price">@product.Price.ToString("c")</span>
+                                    <a asp-controller="Home" asp-action="ProductDetails" asp-route-productId="@product.ProductId" class="btn btn-sm btn-primary">
+                                        <i class="fas fa-eye me-1"></i>Detaylar
+                                    </a>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                }
             </div>
         }
     </div>
-</form>
+</section>
+
+<!-- Call to Action Section -->
+<section class="bg-light py-5 rounded-3 mb-5">
+    <div class="container text-center">
+        <h2 class="mb-3">Kuponlar ve İndirimler</h2>
+        <p class="lead mb-4">En güncel kampanyalarımızdan haberdar olmak için kuponlarımıza göz atın.</p>
+        <a asp-controller="Coupon" asp-action="CouponIndex" class="btn btn-primary btn-lg">
+            <i class="fas fa-tag me-2"></i>Kuponları Keşfet
+        </a>
+    </div>
+</section>
+
+@section Scripts {
+    <script>
+        // Ürün kartları için hover efekti
+        document.addEventListener('DOMContentLoaded', function() {
+            const productCards = document.querySelectorAll('.product-card');
+            productCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.classList.add('shadow');
+                });
+                card.addEventListener('mouseleave', function() {
+                    this.classList.remove('shadow');
+                });
+            });
+        });
+    </script>
+}

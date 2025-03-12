@@ -9,15 +9,26 @@ using System.Reflection;
 
 namespace Dodayi.Web.Controllers
 {
+    /// <summary>
+    /// Ana sayfa ve temel sayfa işlemlerini yöneten controller sınıfı
+    /// </summary>
     public class HomeController : Controller
     {
         private readonly IProductService _productService;
 
+        /// <summary>
+        /// HomeController constructor metodu
+        /// </summary>
+        /// <param name="productService">Ürün servis arayüzü</param>
         public HomeController(IProductService productService)
         {
             _productService = productService;
         }
 
+        /// <summary>
+        /// Ana sayfa görünümünü döndürür ve ürün listesini getirir
+        /// </summary>
+        /// <returns>Ana sayfa görünümü</returns>
         public async Task<IActionResult> Index()
         {
             List<ProductDto>? list = new();
@@ -40,6 +51,11 @@ namespace Dodayi.Web.Controllers
             return View(list);
         }
 
+        /// <summary>
+        /// Ürün detay sayfasını gösterir. Kimlik doğrulama gerektirir.
+        /// </summary>
+        /// <param name="productId">Detayları gösterilecek ürünün ID'si</param>
+        /// <returns>Ürün detay görünümü</returns>
         [Authorize]
         public async Task<IActionResult> ProductDetails(int productId)
         {
@@ -63,13 +79,20 @@ namespace Dodayi.Web.Controllers
             return View(model);
         }
 
-
+        /// <summary>
+        /// Gizlilik sayfasını gösterir. Sadece Admin rolüne sahip kullanıcılar erişebilir.
+        /// </summary>
+        /// <returns>Gizlilik sayfası görünümü</returns>
         [Authorize(Roles =SD.RoleAdmin)]
         public IActionResult Privacy()
         {
             return View();
         }
 
+        /// <summary>
+        /// Hata sayfasını gösterir
+        /// </summary>
+        /// <returns>Hata sayfası görünümü</returns>
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

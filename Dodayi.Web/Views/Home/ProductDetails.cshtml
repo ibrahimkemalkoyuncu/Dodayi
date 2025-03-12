@@ -1,56 +1,543 @@
 ﻿@model ProductDto 
 
-<form method="post">
-    <input asp-for="ProductId" hidden />
-    <div class=" pt-4">
-        <div class="card container" style="border:1px solid #808080;">
-            <div class="card-header bg-dark text-light row" style="border-radius: 0px;">
-                <div class="col-12 col-md-6">
-                    <h1 class="text-white">@Model.Name</h1>
-                </div>
-                <div class="col-12 col-md-6 text-end">
-                    <h1 class="text-warning"> @string.Format("{0:c}", Model.Price)</h1>
+<div class="container py-4 fade-in">
+    <!-- Ürün Detay Sayfası -->
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Ana Sayfa</a></li>
+            <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Ürünler</a></li>
+            <li class="breadcrumb-item active" aria-current="page">@Model.Name</li>
+        </ol>
+    </nav>
+
+    <div class="card border-0 shadow-sm overflow-hidden mb-5">
+        <div class="row g-0">
+            <!-- Ürün Görseli -->
+            <div class="col-md-5">
+                @if (string.IsNullOrEmpty(Model.ImageUrl))
+                {
+                    <img src="https://via.placeholder.com/500x500?text=Ürün+Görseli" class="img-fluid rounded-start h-100 object-fit-cover" alt="@Model.Name">
+                }
+                else
+                {
+                    <img src="@Model.ImageUrl" class="img-fluid rounded-start h-100 object-fit-cover" alt="@Model.Name">
+                }
+                
+                <!-- Ürün küçük görselleri (mini galeri) -->
+                <div class="d-flex mt-2 px-2">
+                    <div class="border rounded p-1 me-2">
+                        <img src="@(string.IsNullOrEmpty(Model.ImageUrl) ? "https://via.placeholder.com/100x100?text=Ürün+Görseli+1" : Model.ImageUrl)" class="img-thumbnail" style="width: 60px; height: 60px; object-fit: cover;" alt="Mini 1">
+                    </div>
+                    <div class="border rounded p-1 me-2">
+                        <img src="https://via.placeholder.com/100x100?text=Ürün+Görseli+2" class="img-thumbnail" style="width: 60px; height: 60px; object-fit: cover;" alt="Mini 2">
+                    </div>
+                    <div class="border rounded p-1 me-2">
+                        <img src="https://via.placeholder.com/100x100?text=Ürün+Görseli+3" class="img-thumbnail" style="width: 60px; height: 60px; object-fit: cover;" alt="Mini 3">
+                    </div>
                 </div>
             </div>
-            <div class="card-body">
-                <div class="container rounded p-2">
-                    <div class="row">
-
-                        <div class="col-12 col-lg-4 p-1 text-center">
-                            <img src="@Model.ImageUrl" style="border-radius:35px;" width="100%" class="rounded" />
+            
+            <!-- Ürün Bilgileri -->
+            <div class="col-md-7">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <h1 class="card-title mb-0">@Model.Name</h1>
+                        <span class="badge bg-primary rounded-pill">@Model.CategoryName</span>
+                    </div>
+                    
+                    <!-- Ürün Değerlendirme Özeti -->
+                    <div class="d-flex align-items-center mb-2">
+                        <div class="text-warning me-2">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
                         </div>
-
-                        <div class="col-12 col-lg-8">
-                            <div class="row pl-3">
-
-                                <div class="col-12">
-                                    <span class="badge bg-primary text-success p-3 border">@Model.CategoryName</span>
-                                    <p class="text-secondary pt-3">@Html.Raw(Model.Description) </p>
+                        <span class="text-muted small">4.5/5 (12 değerlendirme)</span>
+                    </div>
+                    
+                    <div class="d-flex align-items-center mb-3">
+                        <h2 class="text-primary-custom mb-0 me-2">@string.Format("{0:c}", Model.Price)</h2>
+                        @if (Model.Price < 100) // Örnek koşul
+                        {
+                            <div>
+                                <span class="text-decoration-line-through text-muted me-2">@string.Format("{0:c}", Model.Price * 1.2)</span>
+                                <span class="badge bg-success">%20 İndirim</span>
+                            </div>
+                        }
+                    </div>
+                    
+                    <hr>
+                    
+                    <!-- Stok durumu -->
+                    <div class="mb-3">
+                        <span class="badge bg-success">
+                            <i class="fas fa-check-circle me-1"></i>Stokta
+                        </span>
+                        <span class="ms-2 text-muted small">Bugün sipariş verirseniz yarın kargoda</span>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <h5>Ürün Açıklaması</h5>
+                        <div class="text-muted">@Html.Raw(Model.Description)</div>
+                    </div>
+                    
+                    <form method="post" class="mb-4">
+                        <input type="hidden" name="ProductId" id="ProductId" value="@Model.ProductId" />
+                        
+                        <div class="row g-3 align-items-center">
+                            <div class="col-md-3">
+                                <label for="Count" class="form-label">Adet</label>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="input-group">
+                                    <button type="button" class="btn btn-outline-secondary" id="decreaseQuantity">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                    <input type="number" name="Count" id="Count" class="form-control text-center" min="1" value="1" />
+                                    <button type="button" class="btn btn-outline-secondary" id="increaseQuantity">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
                                 </div>
-
+                                @if (ViewData.ModelState.TryGetValue("Count", out var entry) && entry.Errors.Any())
+                                {
+                                    <div class="text-danger small">@string.Join(", ", entry.Errors.Select(e => e.ErrorMessage))</div>
+                                }
                             </div>
-
-                            <div class="row mx-0">
-                                <input asp-for="Count" class="form-control" />
-                                <span asp-validation-for="Count" class="text-danger"></span>
+                            <div class="col-md-5">
+                                <button type="submit" class="btn btn-primary w-100">
+                                    <i class="fas fa-cart-plus me-2"></i>Sepete Ekle
+                                </button>
                             </div>
+                        </div>
+                    </form>
+                    
+                    <!-- Hızlı Bilgiler -->
+                    <div class="d-flex flex-wrap mb-4">
+                        <div class="me-4 mb-2">
+                            <i class="fas fa-truck text-primary-custom me-2"></i>
+                            <span class="text-muted">Hızlı teslimat</span>
+                        </div>
+                        <div class="me-4 mb-2">
+                            <i class="fas fa-undo text-primary-custom me-2"></i>
+                            <span class="text-muted">30 gün iade garantisi</span>
+                        </div>
+                        <div class="me-4 mb-2">
+                            <i class="fas fa-shield-alt text-primary-custom me-2"></i>
+                            <span class="text-muted">Güvenli ödeme</span>
+                        </div>
+                        <div class="mb-2">
+                            <i class="fas fa-headset text-primary-custom me-2"></i>
+                            <span class="text-muted">7/24 destek</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Sosyal Paylaşım -->
+                    <div class="mt-4">
+                        <h6>Bu Ürünü Paylaş</h6>
+                        <div class="d-flex gap-2">
+                            <a href="#" class="btn btn-sm btn-outline-secondary">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                            <a href="#" class="btn btn-sm btn-outline-secondary">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a href="#" class="btn btn-sm btn-outline-secondary">
+                                <i class="fab fa-whatsapp"></i>
+                            </a>
+                            <a href="#" class="btn btn-sm btn-outline-secondary">
+                                <i class="fab fa-telegram"></i>
+                            </a>
                         </div>
                     </div>
                 </div>
             </div>
-
-            <div class="card-footer row bg-dark">
-                <div class="col-12 col-md-6 pb-1 ">
-                    <a asp-action="Index" class="btn btn-success btn-square form-control btn-lg" style="height:50px;">Back to List</a>
+        </div>
+    </div>
+    
+    <!-- Ürün Detay Tabları -->
+    <div class="card border-0 shadow-sm mb-5">
+        <div class="card-header bg-white">
+            <ul class="nav nav-tabs card-header-tabs" id="productTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="specs-tab" data-bs-toggle="tab" data-bs-target="#specs" type="button" role="tab" aria-controls="specs" aria-selected="true">Özellikler</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="reviews-tab" data-bs-toggle="tab" data-bs-target="#reviews" type="button" role="tab" aria-controls="reviews" aria-selected="false">Değerlendirmeler</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="shipping-tab" data-bs-toggle="tab" data-bs-target="#shipping" type="button" role="tab" aria-controls="shipping" aria-selected="false">Kargo ve İade</button>
+                </li>
+            </ul>
+        </div>
+        <div class="card-body">
+            <div class="tab-content" id="productTabContent">
+                <!-- Özellikler Tabı -->
+                <div class="tab-pane fade show active" id="specs" role="tabpanel" aria-labelledby="specs-tab">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <tbody>
+                                <tr>
+                                    <th style="width: 30%">Kategori</th>
+                                    <td>@Model.CategoryName</td>
+                                </tr>
+                                <tr>
+                                    <th>Marka</th>
+                                    <td>Dodayi</td>
+                                </tr>
+                                <tr>
+                                    <th>Stok Kodu</th>
+                                    <td>DOD-@Model.ProductId</td>
+                                </tr>
+                                <tr>
+                                    <th>Garanti</th>
+                                    <td>24 Ay</td>
+                                </tr>
+                                <tr>
+                                    <th>Menşei</th>
+                                    <td>Türkiye</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-                <div class="col-12 col-md-6 ">
-                    <button type="submit" class="btn btn-primary form-control btn-lg" style="height:50px;">Add to Cart</button>
+                
+                <!-- Değerlendirmeler Tabı -->
+                <div class="tab-pane fade" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
+                    <div class="d-flex align-items-center mb-4">
+                        <div class="text-center me-4">
+                            <h2 class="display-4 fw-bold mb-0">4.5</h2>
+                            <div class="text-warning mb-1">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                            </div>
+                            <p class="text-muted small mb-0">12 değerlendirme</p>
+                        </div>
+                        <div class="flex-grow-1">
+                            <div class="d-flex align-items-center mb-1">
+                                <div class="text-muted small me-2">5 <i class="fas fa-star"></i></div>
+                                <div class="progress flex-grow-1" style="height: 8px;">
+                                    <div class="progress-bar bg-success" role="progressbar" style="width: 85%"></div>
+                                </div>
+                                <div class="text-muted small ms-2">85%</div>
+                            </div>
+                            <div class="d-flex align-items-center mb-1">
+                                <div class="text-muted small me-2">4 <i class="fas fa-star"></i></div>
+                                <div class="progress flex-grow-1" style="height: 8px;">
+                                    <div class="progress-bar bg-success" role="progressbar" style="width: 10%"></div>
+                                </div>
+                                <div class="text-muted small ms-2">10%</div>
+                            </div>
+                            <div class="d-flex align-items-center mb-1">
+                                <div class="text-muted small me-2">3 <i class="fas fa-star"></i></div>
+                                <div class="progress flex-grow-1" style="height: 8px;">
+                                    <div class="progress-bar bg-warning" role="progressbar" style="width: 3%"></div>
+                                </div>
+                                <div class="text-muted small ms-2">3%</div>
+                            </div>
+                            <div class="d-flex align-items-center mb-1">
+                                <div class="text-muted small me-2">2 <i class="fas fa-star"></i></div>
+                                <div class="progress flex-grow-1" style="height: 8px;">
+                                    <div class="progress-bar bg-danger" role="progressbar" style="width: 1%"></div>
+                                </div>
+                                <div class="text-muted small ms-2">1%</div>
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <div class="text-muted small me-2">1 <i class="fas fa-star"></i></div>
+                                <div class="progress flex-grow-1" style="height: 8px;">
+                                    <div class="progress-bar bg-danger" role="progressbar" style="width: 1%"></div>
+                                </div>
+                                <div class="text-muted small ms-2">1%</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Müşteri Değerlendirmeleri -->
+                    <div class="mb-4">
+                        <h5 class="mb-3">Müşteri Değerlendirmeleri</h5>
+                        
+                        <!-- Değerlendirme 1 -->
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <div class="d-flex mb-3">
+                                    <div class="flex-shrink-0">
+                                        <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 48px; height: 48px;">
+                                            <span class="fw-bold">AY</span>
+                                        </div>
+                                    </div>
+                                    <div class="ms-3">
+                                        <h6 class="mb-0">Ahmet Y.</h6>
+                                        <div class="text-warning small mb-1">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                        </div>
+                                        <p class="text-muted small">2 gün önce</p>
+                                    </div>
+                                </div>
+                                <h6>Harika ürün, çok memnunum!</h6>
+                                <p>Uzun zamandır kullanıyorum ve gerçekten çok memnunum. Kalitesi, dayanıklılığı ve kullanım kolaylığı tam beklediğim gibi. Kesinlikle tavsiye ederim.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Değerlendirme 2 -->
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <div class="d-flex mb-3">
+                                    <div class="flex-shrink-0">
+                                        <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 48px; height: 48px;">
+                                            <span class="fw-bold">MK</span>
+                                        </div>
+                                    </div>
+                                    <div class="ms-3">
+                                        <h6 class="mb-0">Mehmet K.</h6>
+                                        <div class="text-warning small mb-1">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="far fa-star"></i>
+                                        </div>
+                                        <p class="text-muted small">1 hafta önce</p>
+                                    </div>
+                                </div>
+                                <h6>Güzel ürün, hızlı kargo</h6>
+                                <p>Ürün gayet kaliteli ve fiyatına göre iyi. Kargolama çok hızlı oldu, ertesi gün elime ulaştı. Sadece kutu biraz hasarlıydı ama ürün sağlamdı.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Daha Fazla Değerlendirme -->
+                        <div class="text-center mt-4">
+                            <a href="#" class="btn btn-outline-primary">
+                                <i class="fas fa-comments me-2"></i>Tüm Değerlendirmeleri Gör (12)
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- Değerlendirme Ekleme -->
+                    <div>
+                        <h5 class="mb-3">Değerlendirme Yap</h5>
+                        <div class="card">
+                            <div class="card-body">
+                                <form>
+                                    <div class="mb-3">
+                                        <label class="form-label">Puanlama</label>
+                                        <div class="rating">
+                                            <i class="far fa-star fs-5 text-warning me-1"></i>
+                                            <i class="far fa-star fs-5 text-warning me-1"></i>
+                                            <i class="far fa-star fs-5 text-warning me-1"></i>
+                                            <i class="far fa-star fs-5 text-warning me-1"></i>
+                                            <i class="far fa-star fs-5 text-warning"></i>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="reviewTitle" class="form-label">Başlık</label>
+                                        <input type="text" class="form-control" id="reviewTitle" placeholder="Değerlendirmenize başlık ekleyin">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="reviewComment" class="form-label">Yorumunuz</label>
+                                        <textarea class="form-control" id="reviewComment" rows="3" placeholder="Deneyiminizi paylaşın..."></textarea>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fas fa-paper-plane me-2"></i>Değerlendirme Gönder
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Kargo ve İade Tabı -->
+                <div class="tab-pane fade" id="shipping" role="tabpanel" aria-labelledby="shipping-tab">
+                    <div class="row">
+                        <div class="col-md-6 mb-4 mb-md-0">
+                            <h5><i class="fas fa-truck text-primary-custom me-2"></i>Kargo Bilgileri</h5>
+                            <ul class="list-unstyled text-muted">
+                                <li class="mb-2"><i class="fas fa-check-circle me-2 text-success"></i>Siparişiniz aynı gün kargoya verilir.</li>
+                                <li class="mb-2"><i class="fas fa-check-circle me-2 text-success"></i>Kargo ücreti 19,90₺'dir.</li>
+                                <li class="mb-2"><i class="fas fa-check-circle me-2 text-success"></i>150₺ ve üzeri alışverişlerde kargo ücretsizdir.</li>
+                                <li class="mb-2"><i class="fas fa-check-circle me-2 text-success"></i>Anlaşmalı kargo firmaları: Aras Kargo, MNG Kargo, PTT Kargo</li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h5><i class="fas fa-undo text-primary-custom me-2"></i>İade ve Değişim</h5>
+                            <ul class="list-unstyled text-muted">
+                                <li class="mb-2"><i class="fas fa-check-circle me-2 text-success"></i>Satın aldığınız ürünü 30 gün içinde iade edebilirsiniz.</li>
+                                <li class="mb-2"><i class="fas fa-check-circle me-2 text-success"></i>İade için ürünün kullanılmamış ve etiketlerinin sökülmemiş olması gerekmektedir.</li>
+                                <li class="mb-2"><i class="fas fa-check-circle me-2 text-success"></i>İade kargo ücreti müşteriye aittir.</li>
+                                <li class="mb-2"><i class="fas fa-check-circle me-2 text-success"></i>Değişim için müşteri hizmetleri ile iletişime geçmeniz gerekmektedir.</li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</form>
+    
+    <!-- Benzer Ürünler -->
+    <div class="mb-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="h3 mb-0">Benzer Ürünler</h2>
+            <a href="#" class="btn btn-link text-decoration-none">Tümünü Gör <i class="fas fa-arrow-right ms-1"></i></a>
+        </div>
+        
+        <div class="row">
+            <!-- Benzer Ürün 1 -->
+            <div class="col-md-3 col-sm-6 mb-4">
+                <div class="card product-card h-100">
+                    <img src="https://via.placeholder.com/300x200?text=Benzer+Ürün+1" class="card-img-top" alt="Benzer Ürün 1">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="product-title">Benzer Ürün 1</h5>
+                        <p class="text-muted small mb-2">@Model.CategoryName</p>
+                        <p class="mb-3 flex-grow-1">Benzer ürün kısa açıklaması burada yer alacak...</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="product-price">149,90 ₺</span>
+                            <a href="#" class="btn btn-sm btn-primary">
+                                <i class="fas fa-eye me-1"></i>Detaylar
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Benzer Ürün 2 -->
+            <div class="col-md-3 col-sm-6 mb-4">
+                <div class="card product-card h-100">
+                    <img src="https://via.placeholder.com/300x200?text=Benzer+Ürün+2" class="card-img-top" alt="Benzer Ürün 2">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="product-title">Benzer Ürün 2</h5>
+                        <p class="text-muted small mb-2">@Model.CategoryName</p>
+                        <p class="mb-3 flex-grow-1">Benzer ürün kısa açıklaması burada yer alacak...</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="product-price">189,90 ₺</span>
+                            <a href="#" class="btn btn-sm btn-primary">
+                                <i class="fas fa-eye me-1"></i>Detaylar
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Benzer Ürün 3 -->
+            <div class="col-md-3 col-sm-6 mb-4">
+                <div class="card product-card h-100">
+                    <img src="https://via.placeholder.com/300x200?text=Benzer+Ürün+3" class="card-img-top" alt="Benzer Ürün 3">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="product-title">Benzer Ürün 3</h5>
+                        <p class="text-muted small mb-2">@Model.CategoryName</p>
+                        <p class="mb-3 flex-grow-1">Benzer ürün kısa açıklaması burada yer alacak...</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="product-price">119,90 ₺</span>
+                            <a href="#" class="btn btn-sm btn-primary">
+                                <i class="fas fa-eye me-1"></i>Detaylar
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Benzer Ürün 4 -->
+            <div class="col-md-3 col-sm-6 mb-4">
+                <div class="card product-card h-100">
+                    <img src="https://via.placeholder.com/300x200?text=Benzer+Ürün+4" class="card-img-top" alt="Benzer Ürün 4">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="product-title">Benzer Ürün 4</h5>
+                        <p class="text-muted small mb-2">@Model.CategoryName</p>
+                        <p class="mb-3 flex-grow-1">Benzer ürün kısa açıklaması burada yer alacak...</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="product-price">159,90 ₺</span>
+                            <a href="#" class="btn btn-sm btn-primary">
+                                <i class="fas fa-eye me-1"></i>Detaylar
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Diğer Ürünlere Dön Butonu -->
+    <div class="text-center mt-4">
+        <a asp-action="Index" class="btn btn-outline-primary">
+            <i class="fas fa-arrow-left me-2"></i>Ürünlere Geri Dön
+        </a>
+    </div>
+</div>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    <script>
+        // Adet artırma/azaltma işlevselliği
+        document.addEventListener('DOMContentLoaded', function() {
+            const countInput = document.getElementById('Count');
+            const decreaseBtn = document.getElementById('decreaseQuantity');
+            const increaseBtn = document.getElementById('increaseQuantity');
+            
+            decreaseBtn.addEventListener('click', function() {
+                let count = parseInt(countInput.value);
+                if (count > 1) {
+                    countInput.value = count - 1;
+                }
+            });
+            
+            increaseBtn.addEventListener('click', function() {
+                let count = parseInt(countInput.value);
+                countInput.value = count + 1;
+            });
+            
+            // Derecelendirme yıldızları için interaktif işlevsellik
+            const ratingStars = document.querySelectorAll('.rating .fa-star');
+            ratingStars.forEach((star, index) => {
+                star.addEventListener('click', () => {
+                    ratingStars.forEach((s, i) => {
+                        if (i <= index) {
+                            s.classList.remove('far');
+                            s.classList.add('fas');
+                        } else {
+                            s.classList.remove('fas');
+                            s.classList.add('far');
+                        }
+                    });
+                });
+                
+                star.addEventListener('mouseover', () => {
+                    ratingStars.forEach((s, i) => {
+                        if (i <= index) {
+                            s.classList.add('text-warning');
+                        }
+                    });
+                });
+                
+                star.addEventListener('mouseout', () => {
+                    ratingStars.forEach(s => {
+                        if (s.classList.contains('far')) {
+                            s.classList.add('text-warning');
+                        }
+                    });
+                });
+            });
+            
+            // Mini galeri görselleri için tıklama işlevselliği
+            const miniImages = document.querySelectorAll('.img-thumbnail');
+            const mainImage = document.querySelector('.img-fluid.rounded-start');
+            
+            miniImages.forEach(img => {
+                img.addEventListener('click', function() {
+                    mainImage.src = this.src;
+                    
+                    // Aktif mini görsel vurgusu
+                    miniImages.forEach(i => {
+                        i.parentElement.classList.remove('border-primary');
+                    });
+                    this.parentElement.classList.add('border-primary');
+                });
+            });
+        });
+    </script>
 }

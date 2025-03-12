@@ -5,15 +5,26 @@ using Newtonsoft.Json;
 
 namespace Dodayi.Web.Controllers
 {
+    /// <summary>
+    /// Kupon işlemlerini yöneten controller sınıfı
+    /// </summary>
     public class CouponController : Controller
     {
         private readonly ICouponService _couponService;
 
+        /// <summary>
+        /// CouponController constructor metodu
+        /// </summary>
+        /// <param name="couponService">Kupon servis arayüzü</param>
         public CouponController(ICouponService couponService)
         {
             _couponService = couponService;
         }
 
+        /// <summary>
+        /// Kupon listesini gösteren sayfa
+        /// </summary>
+        /// <returns>Kupon listesi görünümü</returns>
         public async Task<IActionResult> CouponIndex()
         {
             List<CouponDto>? list = new();
@@ -36,12 +47,20 @@ namespace Dodayi.Web.Controllers
             return View(list);
         }
 
+        /// <summary>
+        /// Yeni kupon oluşturma sayfasını gösterir
+        /// </summary>
+        /// <returns>Kupon oluşturma formu görünümü</returns>
         public IActionResult CouponCreate()
         {
-
             return View();
         }
 
+        /// <summary>
+        /// Yeni kupon oluşturma işlemini gerçekleştirir
+        /// </summary>
+        /// <param name="model">Oluşturulacak kupon bilgisi</param>
+        /// <returns>Başarılıysa kupon listesi, değilse kupon oluşturma formu</returns>
         [HttpPost]
         public async Task<IActionResult> CouponCreate(CouponDto model)
         {
@@ -62,7 +81,11 @@ namespace Dodayi.Web.Controllers
             return View(model);
         }
 
-
+        /// <summary>
+        /// Kupon silme onay sayfasını gösterir
+        /// </summary>
+        /// <param name="couponId">Silinecek kuponun ID'si</param>
+        /// <returns>Kupon silme onay görünümü</returns>
         public async Task<IActionResult> CouponDelete(int couponId)
         {
             ResponseDto? response = await _couponService.GetCouponByIdAsync(couponId);
@@ -85,7 +108,11 @@ namespace Dodayi.Web.Controllers
             return NotFound();
         }
 
-
+        /// <summary>
+        /// Kupon silme işlemini gerçekleştirir
+        /// </summary>
+        /// <param name="model">Silinecek kupon bilgisi</param>
+        /// <returns>Başarılıysa kupon listesi, değilse silme sayfası</returns>
         [HttpPost]
         public async Task<IActionResult> CouponDelete(CouponDto model)
         {

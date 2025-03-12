@@ -4,27 +4,32 @@ using Dodayi.Services.CouponAPI.Data;
 using Dodayi.Services.CouponAPI.Extension;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using System.Text;
 
+// Web uygulaması builder'ını oluştur
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Veritabanı bağlantısını yapılandır
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
-// Mapping
+// AutoMapper yapılandırması
 IMapper mapper = MappingConfig.RegisterMaps().CreateMapper();
 builder.Services.AddSingleton(mapper);
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
+// Controller'ları ekle
 builder.Services.AddControllers();
+
+// API endpoint keşfini ekle
 builder.Services.AddEndpointsApiExplorer();
+
+// Swagger belgelendirmesini yapılandır
 builder.Services.AddSwaggerGen(options =>
 {
+    // JWT kimlik doğrulama şemasını tanımla
     options.AddSecurityDefinition(name: JwtBearerDefaults.AuthenticationScheme, securityScheme: new OpenApiSecurityScheme
     {
         Name = "Authorization",
@@ -33,6 +38,8 @@ builder.Services.AddSwaggerGen(options =>
         Type = SecuritySchemeType.ApiKey,
         Scheme = "Bearer"
     });
+    
+    // Swagger UI'da güvenlik gereksinimlerini yapılandır
     options.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
         {
@@ -49,31 +56,46 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
+// Kimlik doğrulama ayarlarını ekle
 builder.AddAppAuthentication(); 
 
+// Yetkilendirme servisini ekle
 builder.Services.AddAuthorization();
 
+// Web uygulamasını oluştur
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// HTTP istek pipeline'ını yapılandır
 if (app.Environment.IsDevelopment())
 {
     //app.MapOpenApi();
 
+    // Swagger arayüzünü etkinleştir (sadece geliştirme ortamında)
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
+// HTTPS yönlendirmesini etkinleştir
 app.UseHttpsRedirection();
 
+// Kimlik doğrulama middleware'ini etkinleştir
 app.UseAuthentication();
+
+// Yetkilendirme middleware'ini etkinleştir
 app.UseAuthorization();
+
+// Controller endpoint'lerini ayarla
 app.MapControllers();
 
+// Bekleyen tüm veritabanı migrasyonlarını uygula
 ApplyMigration();
 
+// Uygulamayı başlat
 app.Run();
 
+/// <summary>
+/// Bekleyen tüm veritabanı migrasyonlarını uygular
+/// </summary>
 void ApplyMigration()
 {
     using (var scope = app.Services.CreateScope())
