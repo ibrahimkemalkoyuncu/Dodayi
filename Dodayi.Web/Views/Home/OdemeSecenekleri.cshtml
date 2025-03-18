@@ -1,0 +1,424 @@
+@{
+    ViewData["Title"] = "Ödeme Seçenekleri";
+}
+
+@section Styles {
+    <style>
+        /* Custom styles for payment options page */
+        .accordion-button:not(.collapsed) {
+            background-color: var(--bs-primary);
+            color: white;
+        }
+        
+        .accordion-button:focus {
+            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+        }
+
+        /* Media queries */
+        @@media (max-width: 767.98px) {
+            .table-responsive {
+                font-size: 0.875rem;
+            }
+            
+            .display-4 {
+                font-size: 2rem;
+            }
+            
+            .lead {
+                font-size: 1rem;
+            }
+            
+            .card-body {
+                padding: 1.25rem !important;
+            }
+            
+            .btn-lg {
+                padding: 0.5rem 1rem !important;
+                font-size: 1rem !important;
+            }
+            
+            .table td, .table th {
+                padding: 0.5rem;
+            }
+        }
+
+        /* Badge styling */
+        .badge {
+            padding: 0.5em 1em;
+            font-weight: 500;
+        }
+
+        /* Back to top button */
+        .back-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 3rem;
+            height: 3rem;
+            border-radius: 50%;
+            background-color: var(--bs-primary);
+            color: white;
+            text-align: center;
+            line-height: 3rem;
+            font-size: 1.5rem;
+            box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+    </style>
+}
+
+<!-- Hero Section -->
+<section class="bg-light py-5 mb-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center">
+                <h1 class="display-4 fw-bold mb-4">Ödeme Seçenekleri</h1>
+                <p class="lead text-muted">Dodayi.com'da size en uygun ödeme yöntemini seçerek güvenle alışveriş yapabilirsiniz.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Payment Methods Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-12">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body p-4 p-md-5">
+                        <h2 class="h3 mb-4 text-primary">
+                            <i class="fas fa-credit-card me-2"></i>Kredi Kartı ile Ödeme
+                        </h2>
+                        <p>Sitemizde <strong>Visa</strong>, <strong>MasterCard</strong>, <strong>American Express</strong> logo ve markalı tüm kredi kartları ile güvenli alışveriş yapabilirsiniz. Kredi kartı ödemeleriniz <strong>256-bit SSL şifreleme</strong> ile korunmaktadır.</p>
+                        
+                        <div class="bg-light p-3 rounded mb-4 mt-4">
+                            <h4 class="h5 mb-3 text-primary">Taksit Seçenekleri</h4>
+                            <div class="table-responsive">
+                                <table class="table table-striped mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th>Banka</th>
+                                            <th class="text-center">3 Taksit</th>
+                                            <th class="text-center">6 Taksit</th>
+                                            <th class="text-center">9 Taksit</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><img src="https://www.intfarming.com/image/catalog/banka/ziraat.png" alt="Ziraat Bankası" height="30" class="me-2">Ziraat Bankası</td>
+                                            <td class="text-center"><i class="fas fa-check text-success"></i></td>
+                                            <td class="text-center"><i class="fas fa-check text-success"></i></td>
+                                            <td class="text-center"><i class="fas fa-check text-success"></i></td>
+                                        </tr>
+                                        <tr>
+                                            <td><img src="https://www.intfarming.com/image/catalog/banka/isbank.png" alt="İş Bankası" height="30" class="me-2">İş Bankası</td>
+                                            <td class="text-center"><i class="fas fa-check text-success"></i></td>
+                                            <td class="text-center"><i class="fas fa-check text-success"></i></td>
+                                            <td class="text-center"><i class="fas fa-check text-success"></i></td>
+                                        </tr>
+                                        <tr>
+                                            <td><img src="https://www.intfarming.com/image/catalog/banka/garanti.png" alt="Garanti BBVA" height="30" class="me-2">Garanti BBVA</td>
+                                            <td class="text-center"><i class="fas fa-check text-success"></i></td>
+                                            <td class="text-center"><i class="fas fa-check text-success"></i></td>
+                                            <td class="text-center"><i class="fas fa-check text-success"></i></td>
+                                        </tr>
+                                        <tr>
+                                            <td><img src="https://www.intfarming.com/image/catalog/banka/yapikredi.png" alt="Yapı Kredi" height="30" class="me-2">Yapı Kredi</td>
+                                            <td class="text-center"><i class="fas fa-check text-success"></i></td>
+                                            <td class="text-center"><i class="fas fa-check text-success"></i></td>
+                                            <td class="text-center"><i class="fas fa-times text-danger"></i></td>
+                                        </tr>
+                                        <tr>
+                                            <td><img src="https://www.intfarming.com/image/catalog/banka/akbank.png" alt="Akbank" height="30" class="me-2">Akbank</td>
+                                            <td class="text-center"><i class="fas fa-check text-success"></i></td>
+                                            <td class="text-center"><i class="fas fa-check text-success"></i></td>
+                                            <td class="text-center"><i class="fas fa-check text-success"></i></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <p class="small mt-3 mb-0">* 250 TL ve üzeri alışverişlerde geçerlidir.</p>
+                        </div>
+                        <div class="my-4 d-flex flex-wrap gap-3">
+                            <img src="https://www.intfarming.com/image/catalog/banka/visa.png" alt="Visa" height="30">
+                            <img src="https://www.intfarming.com/image/catalog/banka/mastercard.png" alt="MasterCard" height="30">
+                            <img src="https://www.intfarming.com/image/catalog/banka/amex.png" alt="American Express" height="30">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row mb-5">
+            <div class="col-12">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body p-4 p-md-5">
+                        <h2 class="h3 mb-4 text-primary">
+                            <i class="fas fa-money-bill-wave me-2"></i>Kapıda Ödeme
+                        </h2>
+                        <p>Dodayi.com olarak müşterilerimize güvenli alışveriş imkanı sunmak için <strong>Kapıda Ödeme</strong> seçeneği sunuyoruz. Ürünlerinizi teslim alırken nakit veya kredi kartı ile ödeme yapabilirsiniz.</p>
+                        
+                        <div class="row mt-4">
+                            <div class="col-md-6 mb-3 mb-md-0">
+                                <div class="card h-100 border-0 bg-light">
+                                    <div class="card-body p-4">
+                                        <h4 class="h5 mb-3 text-primary"><i class="fas fa-money-bill me-2"></i>Kapıda Nakit Ödeme</h4>
+                                        <p class="mb-0">Ürünlerinizi teslim aldığınızda kargo görevlisine nakit olarak ödeme yapabilirsiniz.</p>
+                                        <div class="my-3">
+                                            <span class="badge bg-success">Ek ücret: 14,90 TL</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card h-100 border-0 bg-light">
+                                    <div class="card-body p-4">
+                                        <h4 class="h5 mb-3 text-primary"><i class="fas fa-credit-card me-2"></i>Kapıda Kredi Kartı ile Ödeme</h4>
+                                        <p class="mb-0">Ürünlerinizi teslim aldığınızda kargo görevlisinin POS cihazı ile kredi kartınızdan ödeme yapabilirsiniz.</p>
+                                        <div class="my-3">
+                                            <span class="badge bg-success">Ek ücret: 12,90 TL</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row mb-5">
+            <div class="col-12">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body p-4 p-md-5">
+                        <h2 class="h3 mb-4 text-primary">
+                            <i class="fas fa-university me-2"></i>Havale / EFT ile Ödeme
+                        </h2>
+                        <p>Havale veya EFT yoluyla sipariş tutarınızı aşağıdaki banka hesaplarımıza göndererek alışverişinizi tamamlayabilirsiniz. Havale sonrası işleminizin hızlandırılması için dekont bilgisini <strong>info@dodayi.com</strong> adresine iletebilirsiniz.</p>
+                        
+                        <div class="table-responsive mt-4">
+                            <table class="table table-striped">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Banka</th>
+                                        <th>Şube</th>
+                                        <th>Hesap Sahibi</th>
+                                        <th>IBAN</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><img src="https://www.intfarming.com/image/catalog/banka/ziraat.png" alt="Ziraat Bankası" height="30" class="me-2">Ziraat Bankası</td>
+                                        <td>Merkez Şube</td>
+                                        <td>Dodayi A.Ş.</td>
+                                        <td>TR00 0000 0000 0000 0000 0000 00</td>
+                                    </tr>
+                                    <tr>
+                                        <td><img src="https://www.intfarming.com/image/catalog/banka/isbank.png" alt="İş Bankası" height="30" class="me-2">İş Bankası</td>
+                                        <td>Merkez Şube</td>
+                                        <td>Dodayi A.Ş.</td>
+                                        <td>TR00 0000 0000 0000 0000 0000 00</td>
+                                    </tr>
+                                    <tr>
+                                        <td><img src="https://www.intfarming.com/image/catalog/banka/garanti.png" alt="Garanti BBVA" height="30" class="me-2">Garanti BBVA</td>
+                                        <td>Merkez Şube</td>
+                                        <td>Dodayi A.Ş.</td>
+                                        <td>TR00 0000 0000 0000 0000 0000 00</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Shopping Security Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row justify-content-center mb-5">
+            <div class="col-lg-8 text-center">
+                <h2 class="mb-4">Güvenli Alışveriş</h2>
+                <p class="text-muted">Dodayi.com'da alışveriş yaparken tüm bilgileriniz SSL şifreleme sistemi ile korunmaktadır. Kredi kartı bilgileriniz hiçbir şekilde sistemimizde saklanmamaktadır.</p>
+            </div>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-md-3 col-6 text-center">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body py-4">
+                        <div class="mb-3">
+                            <i class="fas fa-shield-alt fa-3x text-primary"></i>
+                        </div>
+                        <h5>Güvenli Ödeme</h5>
+                        <p class="small text-muted mb-0">256-bit SSL şifreleme ile güvenli ödeme</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-3 col-6 text-center">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body py-4">
+                        <div class="mb-3">
+                            <i class="fas fa-truck fa-3x text-primary"></i>
+                        </div>
+                        <h5>Kapıda Ödeme</h5>
+                        <p class="small text-muted mb-0">Ürünü teslim aldıktan sonra ödeme imkanı</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-3 col-6 text-center">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body py-4">
+                        <div class="mb-3">
+                            <i class="fas fa-credit-card fa-3x text-primary"></i>
+                        </div>
+                        <h5>Taksit İmkanı</h5>
+                        <p class="small text-muted mb-0">Anlaşmalı bankalarla 9 taksit imkanı</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-3 col-6 text-center">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body py-4">
+                        <div class="mb-3">
+                            <i class="fas fa-exchange-alt fa-3x text-primary"></i>
+                        </div>
+                        <h5>İade Garantisi</h5>
+                        <p class="small text-muted mb-0">14 gün içinde koşulsuz iade garantisi</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQs Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row justify-content-center mb-5">
+            <div class="col-lg-8 text-center">
+                <h2 class="mb-4">Sıkça Sorulan Sorular</h2>
+            </div>
+        </div>
+        
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="accordion" id="paymentFaq">
+                    <div class="accordion-item border-0 mb-3 shadow-sm">
+                        <h3 class="accordion-header" id="headingOne">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                Kredi kartı bilgilerim güvende mi?
+                            </button>
+                        </h3>
+                        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#paymentFaq">
+                            <div class="accordion-body">
+                                <p class="mb-0">Evet, kesinlikle güvende. Tüm kredi kartı işlemleriniz 256-bit SSL şifreleme ile korunmaktadır. Kredi kartı bilgileriniz sistemimizde saklanmamakta, doğrudan bankaların güvenli ödeme sistemlerine iletilmektedir.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item border-0 mb-3 shadow-sm">
+                        <h3 class="accordion-header" id="headingTwo">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                Kapıda ödeme seçeneğinde ne gibi ek ücretler var?
+                            </button>
+                        </h3>
+                        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#paymentFaq">
+                            <div class="accordion-body">
+                                <p class="mb-0">Kapıda nakit ödeme için 14,90 TL, kapıda kredi kartı ile ödeme için ise 12,90 TL hizmet bedeli eklenmektedir. Bu bedeller kargo firmasının sunduğu tahsilat hizmeti için alınmaktadır.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item border-0 mb-3 shadow-sm">
+                        <h3 class="accordion-header" id="headingThree">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                Havale/EFT sonrası ne yapmalıyım?
+                            </button>
+                        </h3>
+                        <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#paymentFaq">
+                            <div class="accordion-body">
+                                <p class="mb-0">Havale/EFT işleminizi tamamladıktan sonra, işlemin daha hızlı onaylanması için dekont bilgisini info@dodayi.com adresine göndermenizi veya müşteri hizmetlerimizi aramanızı öneririz. Dekont bilgisinde sipariş numaranızı belirtmeyi unutmayın.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item border-0 mb-3 shadow-sm">
+                        <h3 class="accordion-header" id="headingFour">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                Taksit seçenekleri tüm ürünlerde geçerli mi?
+                            </button>
+                        </h3>
+                        <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#paymentFaq">
+                            <div class="accordion-body">
+                                <p class="mb-0">Taksit seçeneklerimiz 250 TL ve üzeri tüm alışverişlerinizde geçerlidir. Ancak belirli kampanya dönemlerinde bazı ürün gruplarında taksit seçenekleri değişiklik gösterebilir. Güncel taksit bilgilerini her ürünün detay sayfasında görebilirsiniz.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action -->
+<section class="py-5 bg-primary text-white">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-8 mb-4 mb-lg-0">
+                <h2 class="mb-3">Alışverişe Başlayın</h2>
+                <p class="lead mb-0">Güvenli ödeme seçenekleriyle Dodayi.com'da alışverişin keyfini çıkarın.</p>
+            </div>
+            <div class="col-lg-4 text-lg-end">
+                <a href="/Product" class="btn btn-light btn-lg px-4 py-3">Ürünleri Görüntüle</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animate elements when they come into view
+            const animateOnScroll = function() {
+                const elements = document.querySelectorAll('.card, .accordion-item');
+                
+                elements.forEach(element => {
+                    const elementPosition = element.getBoundingClientRect().top;
+                    const windowHeight = window.innerHeight;
+                    
+                    if (elementPosition < windowHeight - 100) {
+                        element.classList.add('animate__animated', 'animate__fadeInUp');
+                        element.style.opacity = '1';
+                    }
+                });
+            };
+            
+            // Add initial styling to elements
+            const elements = document.querySelectorAll('.card, .accordion-item');
+            elements.forEach(element => {
+                element.style.opacity = '0';
+                element.style.transition = 'opacity 0.5s ease-in-out';
+            });
+            
+            // Run on load
+            animateOnScroll();
+            
+            // Run on scroll
+            window.addEventListener('scroll', animateOnScroll);
+        });
+    </script>
+} 

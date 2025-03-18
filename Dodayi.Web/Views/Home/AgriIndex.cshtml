@@ -1,0 +1,187 @@
+@{
+    ViewData["Title"] = "Ana Sayfa";
+    Layout = "~/Views/Shared/_AgriLayout.cshtml";
+}
+
+<!-- Main Banner Area -->
+<div class="agri-banner" style="background-image: url('/images/banner/intfa-kapida-odeme-960x440.jpg');">
+    <div class="container">
+        <div class="agri-banner-content">
+            <h1 class="display-4 fw-bold">INTFA Tarımsal Alışveriş Merkezi</h1>
+            <p class="lead">Kaliteli tohum, fide ve tarım ekipmanları için güvenilir adres</p>
+            <a href="#" class="btn btn-success btn-lg mt-3">Ürünleri İncele</a>
+        </div>
+    </div>
+</div>
+
+<!-- Featured Categories Section -->
+<section class="py-5">
+    <div class="container">
+        <h2 class="text-center mb-4">Popüler Kategoriler</h2>
+        <div class="row">
+            <div class="col-lg-3 col-md-6 col-6">
+                <div class="agri-category-card">
+                    <img src="https://via.placeholder.com/400x300/4caf50/ffffff?text=Sebze+Tohumları" class="agri-category-img" alt="Sebze Tohumları">
+                    <div class="agri-category-overlay">
+                        <h5 class="agri-category-title">Sebze Tohumları</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-6">
+                <div class="agri-category-card">
+                    <img src="https://via.placeholder.com/400x300/f57c00/ffffff?text=Meyve+Fidanları" class="agri-category-img" alt="Meyve Fidanları">
+                    <div class="agri-category-overlay">
+                        <h5 class="agri-category-title">Meyve Fidanları</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-6">
+                <div class="agri-category-card">
+                    <img src="https://via.placeholder.com/400x300/7cb342/ffffff?text=Tarım+Aletleri" class="agri-category-img" alt="Tarım Aletleri">
+                    <div class="agri-category-overlay">
+                        <h5 class="agri-category-title">Tarım Aletleri</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-6">
+                <div class="agri-category-card">
+                    <img src="https://via.placeholder.com/400x300/388e3c/ffffff?text=Gübre+Çeşitleri" class="agri-category-img" alt="Gübre Çeşitleri">
+                    <div class="agri-category-overlay">
+                        <h5 class="agri-category-title">Gübre Çeşitleri</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Products Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>Öne Çıkan Ürünler</h2>
+            <a href="#" class="btn btn-outline-success">Tümünü Gör</a>
+        </div>
+        <div class="row">
+            @for (int i = 1; i <= 8; i++)
+            {
+                <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                    <div class="agri-product-card">
+                        <img src="https://via.placeholder.com/300x200/4caf50/ffffff?text=Tohum+@i" class="agri-product-img" alt="Ürün @i">
+                        <div class="card-body p-3">
+                            <h5 class="agri-product-title">Domates Tohumu (Çeşit @i)</h5>
+                            <div class="agri-product-price">@(i * 10).00 ₺</div>
+                            <a href="#" class="btn agri-product-btn w-100">Sepete Ekle</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<!-- Benefits Section -->
+<section class="py-5">
+    <div class="container">
+        <h2 class="text-center mb-5">Neden Bizi Tercih Etmelisiniz?</h2>
+        <div class="row text-center">
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="p-3">
+                    <i class="fas fa-medal fa-3x text-success mb-3"></i>
+                    <h5>Kaliteli Ürünler</h5>
+                    <p class="text-muted">Tüm ürünlerimiz sertifikalı ve yüksek kalitedir.</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="p-3">
+                    <i class="fas fa-truck fa-3x text-success mb-3"></i>
+                    <h5>Hızlı Teslimat</h5>
+                    <p class="text-muted">Siparişleriniz en hızlı şekilde adresinize teslim edilir.</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="p-3">
+                    <i class="fas fa-headset fa-3x text-success mb-3"></i>
+                    <h5>7/24 Müşteri Desteği</h5>
+                    <p class="text-muted">Sorularınıza her zaman yanıt vermek için buradayız.</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="p-3">
+                    <i class="fas fa-exchange-alt fa-3x text-success mb-3"></i>
+                    <h5>Kolay İade</h5>
+                    <p class="text-muted">Memnun kalmamanız durumunda kolay iade imkanı.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Newsletter Section -->
+<section class="py-5 bg-success text-white">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 mb-4 mb-lg-0">
+                <h3 class="fw-bold">Yeniliklerden Haberdar Olun</h3>
+                <p>E-bültenimize kayıt olarak indirimler ve yeni ürünlerden ilk siz haberdar olun.</p>
+            </div>
+            <div class="col-lg-6">
+                <div class="input-group">
+                    <input type="email" class="form-control" placeholder="E-posta adresinizi yazın">
+                    <button class="btn btn-warning text-dark" type="button">Abone Ol</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Blog Posts Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>Son Blog Yazıları</h2>
+            <a href="#" class="btn btn-outline-success">Tüm Yazılar</a>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card h-100">
+                    <img src="https://via.placeholder.com/400x250/4caf50/ffffff?text=Blog+1" class="card-img-top" alt="Blog 1">
+                    <div class="card-body">
+                        <h5 class="card-title">Domates Yetiştiriciliği İpuçları</h5>
+                        <p class="card-text text-muted">Domatesleri sağlıklı ve verimli yetiştirmek için bilmeniz gereken püf noktaları.</p>
+                        <a href="#" class="btn btn-outline-success">Devamını Oku</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card h-100">
+                    <img src="https://via.placeholder.com/400x250/388e3c/ffffff?text=Blog+2" class="card-img-top" alt="Blog 2">
+                    <div class="card-body">
+                        <h5 class="card-title">Organik Tarım Rehberi</h5>
+                        <p class="card-text text-muted">Organik tarımın temel prensipleri ve evde organik ürün yetiştirmenin yolları.</p>
+                        <a href="#" class="btn btn-outline-success">Devamını Oku</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card h-100">
+                    <img src="https://via.placeholder.com/400x250/689f38/ffffff?text=Blog+3" class="card-img-top" alt="Blog 3">
+                    <div class="card-body">
+                        <h5 class="card-title">Doğal Zararlı Kontrolü</h5>
+                        <p class="card-text text-muted">Zararlılarla kimyasal ilaç kullanmadan doğal yöntemlerle mücadele etmenin yolları.</p>
+                        <a href="#" class="btn btn-outline-success">Devamını Oku</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script>
+        // Custom Scripts for Home Page
+        document.addEventListener('DOMContentLoaded', function() {
+            // You can add custom JavaScript here if needed
+        });
+    </script>
+} 

@@ -4,18 +4,58 @@
 <section class="bg-primary-gradient text-white mb-5 py-5 rounded-3 fade-in">
     <div class="container">
         <div class="row align-items-center">
-            <div class="col-md-6 mb-4 mb-md-0">
-                <h1 class="display-4 fw-bold mb-3">Kaliteli Ürünler, Uygun Fiyatlar</h1>
-                <p class="lead mb-4">Mikroservis mimarisi üzerine kurulu modern e-ticaret deneyimi ile tanışın.</p>
+                @* <h2 class="display-4 fw-bold mb-auto">Kaliteli Ürünler, Uygun Fiyatlar</h2> *@
+@*             <div class="col-md-6 mb-4 mb-md-0">
                 <a href="#products" class="btn btn-light btn-lg px-4 me-2">
                     <i class="fas fa-shopping-bag me-2"></i>Alışverişe Başla
                 </a>
                 <a href="#" class="btn btn-outline-light btn-lg px-4">
                     <i class="fas fa-info-circle me-2"></i>Daha Fazla
                 </a>
-            </div>
-            <div class="col-md-6 text-center">
-                <img src="https://via.placeholder.com/600x400?text=Dodayi" class="img-fluid rounded-3" alt="Dodayi Banner">
+            </div> *@
+            <div class="col-md-12">
+                <!-- Bootstrap Carousel -->
+                <div id="bannerCarousel" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-indicators">
+                        <button type="button" data-bs-target="#bannerCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                        <button type="button" data-bs-target="#bannerCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                        <button type="button" data-bs-target="#bannerCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                    </div>
+                    <div class="carousel-inner rounded-3">
+                        <div class="carousel-item active">
+                            <img src="~/images/banner/intfa-kapida-odeme-960x440.webp" class="d-block w-100" alt="Kapıda Ödeme">
+                        </div>
+       @*                      <div class="carousel-caption d-none d-md-block">
+                                <h4>Güvenli Kapıda Ödeme</h4>
+                                <p>Ürünleri kapıda görüp, kontrol edip, ödemenizi güvenle yapabilirsiniz.</p>
+                                <a href="#" class="btn btn-light btn-sm">Detaylı Bilgi</a>
+                            </div> *@
+                        <div class="carousel-item">
+                            <img src="~/images/banner/cilek-fideleri-960x440.webp" class="d-block w-100" alt="Çilek Fideleri">
+                            @* <div class="carousel-caption d-none d-md-block">
+                                <h4>Çilek Fideleri</h4>
+                                <p>En kaliteli çilek fidelerini uygun fiyatla hemen satın alın.</p>
+                                <a href="#" class="btn btn-light btn-sm">Ürünleri İncele</a>
+                            </div> *@
+                        </div>
+                        <div class="carousel-item">
+                            <img src="~/images/banner/sogan-tohumlari-960x440.webp" class="d-block w-100" alt="Soğan Tohumları">
+                            @* <div class="carousel-caption d-none d-md-block">
+                                <h4>Soğan Tohumları</h4>
+                                <p>Verimli ve kaliteli soğan tohumları ile bahçenizi zenginleştirin.</p>
+                                <a href="#" class="btn btn-light btn-sm">Hemen Sipariş Ver</a>
+                            </div> *@
+                        </div>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#bannerCarousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Önceki</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#bannerCarousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Sonraki</span>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -140,6 +180,119 @@
                     this.classList.remove('shadow');
                 });
             });
+            
+            // Banner carousel için ayarlar
+            const bannerCarousel = new bootstrap.Carousel(document.getElementById('bannerCarousel'), {
+                interval: 5000,
+                wrap: true,
+                keyboard: true,
+                pause: 'hover'
+            });
         });
     </script>
+}
+
+@section Styles {
+    <style>
+        /* Banner carousel stilleri */
+        #bannerCarousel {
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        #bannerCarousel .carousel-item {
+            transition: transform 1s ease-in-out;
+            position: relative;
+        }
+        
+        #bannerCarousel .carousel-indicators {
+            margin-bottom: 0.5rem;
+        }
+        
+        #bannerCarousel .carousel-indicators button {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin: 0 5px;
+        }
+        
+        #bannerCarousel .carousel-control-prev,
+        #bannerCarousel .carousel-control-next {
+            width: 40px;
+            height: 40px;
+            background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 50%;
+            top: 50%;
+            transform: translateY(-50%);
+            opacity: 0.7;
+        }
+        
+        #bannerCarousel .carousel-control-prev {
+            left: 10px;
+        }
+        
+        #bannerCarousel .carousel-control-next {
+            right: 10px;
+        }
+        
+        #bannerCarousel .carousel-control-prev:hover,
+        #bannerCarousel .carousel-control-next:hover {
+            opacity: 1;
+        }
+        
+        /* Caption stilleri */
+        #bannerCarousel .carousel-caption {
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 8px;
+            padding: 15px;
+            bottom: 20px;
+            right: 40px;
+            left: 40px;
+            text-align: left;
+        }
+        
+        #bannerCarousel .carousel-caption h4 {
+            font-weight: 700;
+            margin-bottom: 8px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6);
+        }
+        
+        #bannerCarousel .carousel-caption p {
+            margin-bottom: 12px;
+            font-size: 14px;
+        }
+        
+        #bannerCarousel .carousel-caption .btn {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+        
+        /* Responsive ayarları */
+        @@media (max-width: 768px) {
+            #bannerCarousel .d-none.d-md-block {
+                display: block !important;
+            }
+            
+            #bannerCarousel .carousel-caption {
+                padding: 10px;
+                bottom: 10px;
+                right: 20px;
+                left: 20px;
+            }
+            
+            #bannerCarousel .carousel-caption h4 {
+                font-size: 16px;
+                margin-bottom: 5px;
+            }
+            
+            #bannerCarousel .carousel-caption p {
+                font-size: 12px;
+                margin-bottom: 8px;
+            }
+            
+            #bannerCarousel .carousel-caption .btn {
+                font-size: 12px;
+                padding: 2px 8px;
+            }
+        }
+    </style>
 }
