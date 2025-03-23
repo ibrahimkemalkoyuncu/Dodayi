@@ -1,6 +1,7 @@
 using Dodayi.Web.Service;
 using Dodayi.Web.Service.IService;
 using Dodayi.Web.Utility;
+using Dodayi.Web.Service;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
 // Web uygulaması builder'ını oluştur
@@ -16,7 +17,7 @@ builder.Services.AddHttpClient();
 // Mikroservisler için HTTP istemcileri tanımla
 builder.Services.AddHttpClient<IProductService, ProductService>();
 builder.Services.AddHttpClient<ICouponService, CouponService>();
-//builder.Services.AddHttpClient<ICartService, CartService>();
+builder.Services.AddHttpClient<ICartService, CartService>();
 builder.Services.AddHttpClient<IAuthService, AuthService>();
 //builder.Services.AddHttpClient<IOrderService, OrderService>();
 
@@ -33,7 +34,7 @@ builder.Services.AddScoped<ITokenProvider, TokenProvider>();
 builder.Services.AddScoped<IBaseService, BaseService>();
 //builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IProductService, ProductService>();
-//builder.Services.AddScoped<ICartService, CartService>();
+builder.Services.AddScoped<ICartService, CartService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ICouponService, CouponService>();
 builder.Services.AddScoped<IArbisKeywordService, ArbisKeywordService>();

@@ -1,47 +1,33 @@
 using Dodayi.Web.Models;
 using Dodayi.Web.Service.IService;
-using Dodayi.Web.Utility;
+using IdentityModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Diagnostics;
-using System.Reflection;
 
 namespace Dodayi.Web.Controllers
 {
-    /// <summary>
-    /// Ana sayfa ve temel sayfa işlemlerini yöneten controller sınıfı
-    /// </summary>
     public class HomeController : Controller
     {
         private readonly IProductService _productService;
-
-        /// <summary>
-        /// HomeController constructor metodu
-        /// </summary>
-        /// <param name="productService">Ürün servis arayüzü</param>
-        public HomeController(IProductService productService)
+        private readonly ICartService _cartService;
+        public HomeController(IProductService productService, ICartService cartService)
         {
             _productService = productService;
+            _cartService = cartService;
         }
 
-        /// <summary>
-        /// Ana sayfa görünümünü döndürür ve ürün listesini getirir
-        /// </summary>
-        /// <returns>Ana sayfa görünümü</returns>
+
         public async Task<IActionResult> Index()
         {
             List<ProductDto>? list = new();
 
             ResponseDto? response = await _productService.GetAllProductAsync();
 
-            if (response != null && response.IsSuccess && response.Result != null)
+            if (response != null && response.IsSuccess)
             {
-                var resultString = Convert.ToString(response.Result);
-                if (!string.IsNullOrEmpty(resultString))
-                {
-                    list = JsonConvert.DeserializeObject<List<ProductDto>>(resultString);
-                }
+                list = JsonConvert.DeserializeObject<List<ProductDto>>(Convert.ToString(response.Result));
             }
             else
             {
@@ -51,11 +37,6 @@ namespace Dodayi.Web.Controllers
             return View(list);
         }
 
-        /// <summary>
-        /// Ürün detay sayfasını gösterir. Kimlik doğrulama gerektirir.
-        /// </summary>
-        /// <param name="productId">Detayları gösterilecek ürünün ID'si</param>
-        /// <returns>Ürün detay görünümü</returns>
         [Authorize]
         public async Task<IActionResult> ProductDetails(int productId)
         {
@@ -63,13 +44,9 @@ namespace Dodayi.Web.Controllers
 
             ResponseDto? response = await _productService.GetProductByIdAsync(productId);
 
-            if (response != null && response.IsSuccess && response.Result != null)
+            if (response != null && response.IsSuccess)
             {
-                var resultString = Convert.ToString(response.Result);
-                if (!string.IsNullOrEmpty(resultString))
-                {
-                    model = JsonConvert.DeserializeObject<ProductDto>(resultString);
-                }
+                model = JsonConvert.DeserializeObject<ProductDto>(Convert.ToString(response.Result));
             }
             else
             {
@@ -79,20 +56,50 @@ namespace Dodayi.Web.Controllers
             return View(model);
         }
 
-        /// <summary>
-        /// Gizlilik sayfasını gösterir. Sadece Admin rolüne sahip kullanıcılar erişebilir.
-        /// </summary>
-        /// <returns>Gizlilik sayfası görünümü</returns>
-        [Authorize(Roles =SD.RoleAdmin)]
+
+        [Authorize]
+        [HttpPost]
+        [ActionName("ProductDetails")]
+        public async Task<IActionResult> ProductDetails(ProductDto productDto)
+        {
+            CartDto cartDto = new CartDto()
+            {
+                CartHeader = new CartHeaderDto
+                {
+                    UserId = User.Claims.Where(u => u.Type == JwtClaimTypes.Subject)?.FirstOrDefault()?.Value
+                }
+            };
+
+            CartDetailsDto cartDetails = new CartDetailsDto()
+            {
+                Count = productDto.Count,
+                ProductId = productDto.ProductId,
+            };
+
+            List<CartDetailsDto> cartDetailsDtos = new() { cartDetails };
+            cartDto.CartDetails = cartDetailsDtos;
+
+            ResponseDto? response = await _cartService.UpsertCartAsync(cartDto);
+
+            if (response != null && response.IsSuccess)
+            {
+                TempData["success"] = "Item has been added to the Shopping Cart";
+                return RedirectToAction(nameof(Index));
+            }
+            else
+            {
+                TempData["error"] = response?.Message;
+            }
+
+            return View(productDto);
+        }
+
+
         public IActionResult Privacy()
         {
             return View();
         }
 
-        /// <summary>
-        /// Hata sayfasını gösterir
-        /// </summary>
-        /// <returns>Hata sayfası görünümü</returns>
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
